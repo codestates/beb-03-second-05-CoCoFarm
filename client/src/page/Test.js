@@ -1,6 +1,6 @@
 import Post from "../components/post";
 import { Container, Box } from "@material-ui/core";
-function Main() {
+function Test() {
   return (
     <div className="Main">
       <Container
@@ -15,23 +15,9 @@ function Main() {
         >
           <Post />
         </Box>
-        <Box
-          style={{
-            padding: "1%",
-          }}
-        >
-          <Post />
-        </Box>
-        <Box
-          style={{
-            padding: "1%",
-          }}
-        >
-          <Post />
-        </Box>
       </Container>
     </div>
   );
 }
 
-export default Main;
+export default Test;

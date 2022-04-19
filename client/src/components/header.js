@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+
 import { styled, alpha } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Box from "@material-ui/core/Box";
@@ -114,11 +116,9 @@ export default function Header() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+          <MailIcon />
         </IconButton>
-        <p>Messages</p>
+        <p>Sample</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -172,9 +172,12 @@ export default function Header() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            component={Link}
+            to={"/"}
           >
             <WbSunnyOutlinedIcon />
           </IconButton>
+
           <Typography
             variant="h6"
             noWrap
@@ -200,6 +203,8 @@ export default function Header() {
               style={{
                 color: "white",
               }}
+              component={Link}
+              to={"/signin"}
             >
               SIGN IN
             </Button>
@@ -208,6 +213,8 @@ export default function Header() {
               style={{
                 color: "white",
               }}
+              component={Link}
+              to={"/signup"}
             >
               SIGN UP
             </Button>
@@ -218,6 +225,8 @@ export default function Header() {
               aria-controls={menuId}
               aria-haspopup="true"
               color="inherit"
+              component={Link}
+              to={"/posting"}
             >
               <CreateIcon />
             </IconButton>
