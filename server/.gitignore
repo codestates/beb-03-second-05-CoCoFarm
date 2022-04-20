@@ -1,0 +1,8 @@
+#깃 히스토리
+../.history/
+
+
+#node_modules
+/node_modules
+
+.env
