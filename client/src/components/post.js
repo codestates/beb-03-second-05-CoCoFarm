@@ -1,9 +1,10 @@
 import * as React from "react";
-import { styled } from "@material-ui/core/styles";
+import { RouterLink, Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
   CardMedia,
+  CardActionArea,
   CardContent,
   CardActions,
   Collapse,
@@ -13,7 +14,8 @@ import {
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import CommentIcon from "@material-ui/icons/Comment";
 
 export default function Post() {
   return (
@@ -21,8 +23,12 @@ export default function Post() {
       <CardHeader
         avatar={<Avatar aria-label="profile">R</Avatar>}
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton
+            aria-label="detailview"
+            component={Link}
+            to={"/postdetail"}
+          >
+            <VisibilityIcon />
           </IconButton>
         }
         title="Shrimp and Chorizo Paella"
@@ -35,7 +41,10 @@ export default function Post() {
         alt="Paella dish"
       /> */}
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h6" color="inherit">
+          Title
+        </Typography>
+        <Typography variant="body2" color="inherit">
           This impressive paella is a perfect party dish and a fun meal to cook
           together with your guests. Add 1 cup of frozen peas along with the
           mussels, if you like.
@@ -45,8 +54,8 @@ export default function Post() {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton aria-label="comment">
+          <CommentIcon />
         </IconButton>
       </CardActions>
     </Card>

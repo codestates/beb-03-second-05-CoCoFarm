@@ -3,6 +3,8 @@ import Main from "./page/Main";
 import Signin from "./page/Signin";
 import Signup from "./page/Signup";
 import Posting from "./page/Posting";
+import Postdetail from "./page/Postdetail";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,9 +14,10 @@ function App() {
         <Header />
         <Routes>
           <Route exact path="/" element={<Main />}></Route>
-          <Route exact path="/signin" element={<Signin />}></Route>
-          <Route exact path="/signup" element={<Signup />}></Route>
-          <Route exact path="/posting" element={<Posting />}></Route>
+          <Route path="/signin" element={<Signin />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/posting" element={<Posting />}></Route>
+          <Route path="/postdetail" element={<Postdetail />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
