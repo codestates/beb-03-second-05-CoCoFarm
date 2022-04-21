@@ -1,8 +1,11 @@
 import bcrypt from "bcrypt";
 import { config } from "../config.js";
-export const ChangePassword = (password) => {
-  const salt = config.salt;
-  const hashPassword = bcrypt.hash(password, salt);
-
+export const hashedPassword = async (password) => {
+  const hashPassword = await bcrypt.hash(password, Number(config.salt));
   return hashPassword;
+};
+
+export const comparePassword = async (password, dbPassword) => {
+  const result = await bcrypt.compare(password, dbPassword);
+  return result;
 };
