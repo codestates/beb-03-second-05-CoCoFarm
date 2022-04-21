@@ -15,7 +15,11 @@ const app = express();
 const port = config.host || 8000;
 // BODY - PARSER
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));

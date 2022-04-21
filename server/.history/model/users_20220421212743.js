@@ -9,6 +9,7 @@ const userSchema = new Schema({
     address: { type: String, required: true, unique: true },
     privateKey: { type: String, required: true, unique: true },
   },
+
   email: { type: String, unique: true, required: true },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
 });

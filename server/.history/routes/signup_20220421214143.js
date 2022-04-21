@@ -1,6 +1,5 @@
 import express from "express";
-import { promises as fs } from "fs";
-
+import { promises as fsPromise } from "fs";
 import { createToken } from "../auth/jwt.js";
 import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
@@ -23,7 +22,7 @@ router.post("/", async (req, res) => {
       // 개인키,주소 생성해서 wallet.json 파일 생성
       await newWallet(password);
       let wallet;
-      const data = await fs.readFile("./wallet.json", "utf8");
+      const data = await fsPromise.readFile("./wallet.json", "utf8");
       wallet = JSON.parse(data);
 
       // 읽었으면 파일 삭제
