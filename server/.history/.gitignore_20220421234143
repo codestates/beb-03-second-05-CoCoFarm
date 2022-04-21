@@ -1,5 +1,5 @@
 #깃 히스토리
-.history
+../.history/
 
 
 #node_modules
@@ -7,6 +7,8 @@
 
 .env
 
-*.pem
+.cert.pem
 
-DS_Store
+.key.pem
+
+../.DS_Store
