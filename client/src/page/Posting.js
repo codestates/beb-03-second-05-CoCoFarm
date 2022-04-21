@@ -6,7 +6,16 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import axios from "axios";
+import { useState } from "react";
+
 function Posting() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  // const [hasgtag,setHashtag] = useState("");
+  // optional
+
+  // TODO : onChange, onClick 함수 작성
   return (
     <div className="Posting">
       <Container
