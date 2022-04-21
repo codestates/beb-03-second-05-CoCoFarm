@@ -1,7 +1,10 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { createToken } from "../auth/jwt.js";
 import User from "../model/users.js";
+import { ChangePassword } from "../auth/password.js";
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -18,11 +21,12 @@ router.post("/", async (req, res) => {
     } else {
       const userSchema = {
         username,
-        password,
+        password: ChangePassword(password),
         email,
         phoneNumber,
         wallet,
       };
+
       const user = await User.create(userSchema);
       console.log(user);
       const token = createToken(user);
@@ -37,9 +41,3 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
-// if (err) {
-//   res.status(400).send({ message: "회원 가입 실패" });
-// } else {
-
-//   res.status(200).send({ success: true, message: "Welecome" });
-// }

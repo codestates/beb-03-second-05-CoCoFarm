@@ -6,9 +6,11 @@ import morgan from "morgan";
 
 import { connectDB } from "./database/database.js";
 import { config } from "./config.js";
-
 import loginRouter from "./routes/login.js";
 import singUpRouter from "./routes/signup.js";
+import postingRouter from "./routes/posting.js";
+import editRouter from "./routes/edit.js";
+
 const app = express();
 const port = config.host || 8000;
 // BODY - PARSER
@@ -23,6 +25,9 @@ app.use("/login", loginRouter);
 
 app.use("/signup", singUpRouter);
 
+app.use("/posting", postingRouter);
+
+app.use("/edit", editRouter);
 // DB 연결
 connectDB()
   .then(() => {
