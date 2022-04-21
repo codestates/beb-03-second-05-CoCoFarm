@@ -17,10 +17,10 @@ app.use("/signup", async (req, res) => {
     phoneNumber,
     wallet,
   };
-  await new userModel(userSchema).save(function (err) {
-    if (err) res.send("bad");
-    else res.send("good");
+  const user = await new userModel(userSchema).save(function (err) {
+    if (err) console.log(err);
   });
+  res.send(user);
 });
 
 connectDB()
