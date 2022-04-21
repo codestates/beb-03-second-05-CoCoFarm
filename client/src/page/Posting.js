@@ -60,12 +60,16 @@ function Posting() {
           </Box>
 
           <TextField
-            id="outlined-basic"
+            id="standard-basic"
             label="Title"
-            variant="outlined"
+            variant="standard"
             multiline
-            row={2}
+            minrow={2}
             maxRows={2}
+            style={{
+              width: "98%",
+              left: "1%",
+            }}
           />
 
           <br />
@@ -82,7 +86,7 @@ function Posting() {
               id="outlined-multiline-static"
               label="Write a Post"
               multiline
-              rows={15}
+              minRows={15}
               maxRows={15}
               style={{
                 width: "100%",
