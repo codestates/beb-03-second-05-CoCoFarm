@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
       const token = createToken(query);
       res
         .status(200)
-        .cookie("jwt", token)
+        .header({ Authorization: `Bearer ${token}` })
         .send({ success: true, message: "로그인 성공" });
     } else {
       res.status(400).send({ success: false, message: "You Don't login", err });

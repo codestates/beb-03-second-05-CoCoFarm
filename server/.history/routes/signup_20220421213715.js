@@ -1,6 +1,5 @@
 import express from "express";
 import { promises as fs } from "fs";
-
 import { createToken } from "../auth/jwt.js";
 import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
@@ -26,14 +25,10 @@ router.post("/", async (req, res) => {
       const data = await fs.readFile("./wallet.json", "utf8");
       wallet = JSON.parse(data);
 
-      // 읽었으면 파일 삭제
-      fs.unlink("./wallet.json", (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("삭제완료");
-        }
-      });
+      // // 읽었으면 파일 삭제
+      // await fs.unlink("./wallet.json", (err) => {
+      //   if (err) console.log(err);
+      // });
       const userSchema = {
         username,
         password: await hashedPassword(password),

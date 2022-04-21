@@ -1,5 +1,4 @@
 import express from "express";
-import { promises as fs } from "fs";
 
 import { createToken } from "../auth/jwt.js";
 import User from "../model/users.js";
@@ -20,26 +19,14 @@ router.post("/", async (req, res) => {
         .status(400)
         .send({ success: false, message: "You are already signed up" });
     } else {
-      // 개인키,주소 생성해서 wallet.json 파일 생성
-      await newWallet(password);
-      let wallet;
-      const data = await fs.readFile("./wallet.json", "utf8");
-      wallet = JSON.parse(data);
+      // await newWallet(password);
 
-      // 읽었으면 파일 삭제
-      fs.unlink("./wallet.json", (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("삭제완료");
-        }
-      });
       const userSchema = {
         username,
         password: await hashedPassword(password),
         email,
         phoneNumber,
-        wallet,
+        // wallet
       };
 
       const user = await User.create(userSchema);
@@ -48,7 +35,7 @@ router.post("/", async (req, res) => {
       const token = createToken(user);
       res
         .status(200)
-        .cookie("jwt", token)
+        .header({ Authorization: `Bearer ${token}` })
         .send({ success: true, message: "회원가입 성공!" });
     }
   } catch (err) {
