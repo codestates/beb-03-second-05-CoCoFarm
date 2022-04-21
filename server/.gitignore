@@ -7,8 +7,6 @@
 
 .env
 
-cert.pem
-
-key.pem
+*.pem
 
 DS_Store

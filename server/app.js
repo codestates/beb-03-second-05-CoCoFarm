@@ -13,6 +13,7 @@ import singUpRouter from "./routes/signup.js";
 import postingRouter from "./routes/posting.js";
 import editRouter from "./routes/edit.js";
 
+// import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
 const app = express();
 const port = config.host || 8000;
