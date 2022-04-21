@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
-  CardMedia,
-  CardActionArea,
   CardContent,
   CardActions,
   Collapse,
@@ -16,7 +14,6 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CommentIcon from "@material-ui/icons/Comment";
 import SendIcon from "@material-ui/icons/Send";
@@ -87,14 +84,15 @@ export default function Post() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Comment />
+          <Comment />
           <Box
             className="CommentInputArea"
             style={{ padding: "2%", display: "flex", justifyContent: "right" }}
           >
             <TextField
-              id="outlined-basic"
+              id="commentLine"
               label="Comment"
-              variant="outlined"
+              variant="standard"
               maxRows={3}
               style={{
                 width: "100%",
