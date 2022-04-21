@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const postSchema = new Schema({
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  author: { type: String, required: true },
   title: { type: String, required: true },
   content: { type: String, required: true },
   comments: [
     {
-      author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      author: { type: String, required: true },
       comment: { type: String, required: true },
     },
   ],
