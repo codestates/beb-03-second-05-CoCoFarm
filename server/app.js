@@ -1,28 +1,34 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import morgan from "morgan";
 
 import { connectDB } from "./database/database.js";
-import userModel from "./model/users.js";
+import { config } from "./config.js";
+import loginRouter from "./routes/login.js";
+import singUpRouter from "./routes/signup.js";
+import postingRouter from "./routes/posting.js";
+import editRouter from "./routes/edit.js";
+
 const app = express();
-const port = 8080;
-
+const port = config.host || 8000;
+// BODY - PARSER
 app.use(express.json());
+app.use(cors());
+app.use(cookieParser());
+app.use(helmet());
+app.use(morgan("tiny"));
 
-app.use("/signup", async (req, res) => {
-  console.log(req.body);
-  const { name, password, email, phoneNumber, wallet } = req.body;
-  const userSchema = {
-    name,
-    password,
-    email,
-    phoneNumber,
-    wallet,
-  };
-  await new userModel(userSchema).save(function (err) {
-    if (err) res.send("bad");
-    else res.send("good");
-  });
-});
+// 로그인 시 라우터
+app.use("/login", loginRouter);
 
+app.use("/signup", singUpRouter);
+
+app.use("/posting", postingRouter);
+
+app.use("/edit", editRouter);
+// DB 연결
 connectDB()
   .then(() => {
     console.log("데이터베이스 연결 완료");
