@@ -14,7 +14,6 @@ function Signup() {
   const WarningMessage = "* 비밀번호는 4자리 이상이어야 합니다. *";
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState("");
-  const [wallet, setWallet] = useState(undefined);
   const [email, setEmail] = useState(undefined);
   const [phone, setPhone] = useState(undefined);
   const [signupFlag, setSignupFlag] = useState(false);
@@ -24,9 +23,6 @@ function Signup() {
   }
   function passwordHandler(e) {
     setPassword(e.target.value);
-  }
-  function walletHandler(e) {
-    setWallet(e.target.value);
   }
   function emailHandler(e) {
     setEmail(e.target.value);
@@ -42,22 +38,21 @@ function Signup() {
       setSignupFlag(false);
     }
     console.log(signupFlag);
-  }, [username, password, wallet, email, phone, signupFlag]);
+  }, [username, password, email, phone, signupFlag]);
 
   async function clickSignup() {
     try {
       // 문제 없으면 콘솔에 출력 후 리디렉션
       if (signupFlag) {
-        let result = await axios.post("http://localhost:8000/signup", {
+        let result = await axios.post("http://localhost:8080/signup", {
           username,
           password,
-          wallet,
           email,
           phone,
         });
-        console.log(result);
-        // window.alert(result.data.message);
-        window.alert("회원가입 성공!");
+        console.log(result.headers);
+        window.alert(result.data.message);
+        // window.alert("회원가입 성공!");
         navigate("/");
       } else {
         window.alert(WarningMessage);
