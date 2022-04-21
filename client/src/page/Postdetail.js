@@ -114,7 +114,7 @@ function Postdetail() {
             <TextField
               id="outlined-basic"
               label="Comment"
-              variant="outlined"
+              variant="standard"
               maxRows={3}
               style={{
                 width: "100%",

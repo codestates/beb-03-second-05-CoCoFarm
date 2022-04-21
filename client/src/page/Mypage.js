@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 import { useState } from "react";
 import Post from "../components/post";
@@ -101,6 +102,15 @@ function Mypage() {
               }}
             >
               <EditIcon />
+            </IconButton>
+            <IconButton
+              style={{
+                width: "3rem",
+                height: "3rem",
+                alignSelf: "center",
+              }}
+            >
+              <DeleteIcon />
             </IconButton>
           </Box>
         </Box>
