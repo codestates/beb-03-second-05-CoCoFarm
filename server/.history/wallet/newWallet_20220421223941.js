@@ -1,5 +1,5 @@
 import lightwallet from "eth-lightwallet";
-import fs from "fs";
+import {promises as fs} from "fs";
 import { config } from "../config.js";
 
 const newWallet = async (password) => {
@@ -24,7 +24,7 @@ const newWallet = async (password) => {
             address,
             privateKey,
           };
-          fs.writeFile("wallet.json", JSON.stringify(keySet), (err, data) => {
+          await fs.writeFile("wallet.json", JSON.stringify(keySet), (err, data) => {
             if (err) {
               console.log(err);
             } else {

@@ -1,7 +1,8 @@
 import lightwallet from "eth-lightwallet";
 import fs from "fs";
 import { config } from "../config.js";
-
+let addressKey;
+let privateKey;
 const newWallet = async (password) => {
   try {
     const mnemonic = lightwallet.keystore.generateRandomSeed();
@@ -38,5 +39,11 @@ const newWallet = async (password) => {
     console.log(err);
   }
 };
+
+function getKey(a, b) {
+  console.log("getKey 실행");
+  addressKey = a;
+  privateKey = b;
+}
 
 export default newWallet;
