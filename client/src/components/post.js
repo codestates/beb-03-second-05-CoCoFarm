@@ -90,9 +90,9 @@ export default function Post() {
             style={{ padding: "2%", display: "flex", justifyContent: "right" }}
           >
             <TextField
-              id="outlined-basic"
+              id="commentLine"
               label="Comment"
-              variant="outlined"
+              variant="standard"
               maxRows={3}
               style={{
                 width: "100%",

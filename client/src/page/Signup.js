@@ -65,7 +65,7 @@ function Signup() {
     } catch (e) {
       window.alert(e);
     }
-  } // server에 post요청
+  }
 
   return (
     <div className="Signup">
