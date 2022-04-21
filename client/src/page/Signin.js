@@ -6,10 +6,12 @@ import {
   Button,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Signin() {
+function Signin({ userinfoSetting }) {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
+  const navigate = useNavigate();
 
   function emailHandler(e) {
     setEmail(e.target.value);
@@ -19,19 +21,24 @@ function Signin() {
   }
 
   useEffect(() => {
-    console.log("userInfo Changed!");
+    // console.log("userInfo Changed!");
   }, [email, password]);
 
   // TODO : onClick 함수 작성
   async function clickSignin() {
-    console.log("email: ", email);
-    console.log("Passwd: ", password);
-    let result = await axios.post("http://localhost:8080/login", {
-      email,
-      password,
-    });
+    try {
+      let result = await axios.post("http://localhost:8080/login", {
+        email,
+        password,
+      });
 
-    window.alert(result.data.message);
+      console.log(email);
+      userinfoSetting(email);
+      window.alert(result.data.message);
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
