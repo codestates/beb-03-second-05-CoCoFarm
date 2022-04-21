@@ -1,8 +1,12 @@
 #깃 히스토리
-../.history/
+.history
 
 
 #node_modules
 /node_modules
 
 .env
+
+*.pem
+
+DS_Store
