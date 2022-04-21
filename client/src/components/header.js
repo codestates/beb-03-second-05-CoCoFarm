@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { styled, alpha } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -51,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ isLogin, handleLogout }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -70,6 +70,9 @@ export default function Header() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+  };
+  const logOut = () => {
+    handleLogout();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -194,16 +197,31 @@ export default function Header() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Button
-              variant="text"
-              style={{
-                color: "inherit",
-              }}
-              component={Link}
-              to={"/signin"}
-            >
-              SIGN IN
-            </Button>
+            {isLogin ? (
+              <Button
+                variant="text"
+                style={{
+                  color: "inherit",
+                }}
+                component={Link}
+                to={"/signin"}
+                onClick={logOut}
+              >
+                SIGN OUT
+              </Button>
+            ) : (
+              <Button
+                variant="text"
+                style={{
+                  color: "inherit",
+                }}
+                component={Link}
+                to={"/signin"}
+              >
+                SIGN IN
+              </Button>
+            )}
+
             <Button
               variant="text"
               style={{

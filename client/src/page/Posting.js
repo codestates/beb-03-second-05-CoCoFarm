@@ -7,7 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Posting() {
   const [title, setTitle] = useState("");
@@ -15,7 +15,23 @@ function Posting() {
   // const [hasgtag,setHashtag] = useState("");
   // optional
 
-  // TODO : onChange, onClick 함수 작성
+  function handleTitle(e) {
+    setTitle(e.target.value);
+  }
+  function handleContent(e) {
+    setContent(e.target.value);
+  }
+
+  useEffect(() => {
+    console.log("userInfo Changed!");
+  }, [title, content]);
+
+  // async function clickPosting() {
+  //   let result = await axios.post("http://localhost:8080/post", {
+  //     title,
+  //     content,
+  //   });
+  // }
   return (
     <div className="Posting">
       <Container
@@ -66,6 +82,7 @@ function Posting() {
             multiline
             minrow={2}
             maxRows={2}
+            onChange={handleTitle}
             style={{
               width: "98%",
               left: "1%",
@@ -88,6 +105,7 @@ function Posting() {
               multiline
               minRows={15}
               maxRows={15}
+              onChange={handleContent}
               style={{
                 width: "100%",
                 margin: "1%",
