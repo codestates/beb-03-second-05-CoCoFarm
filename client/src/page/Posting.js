@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function Posting() {
+function Posting({ userInfo, isLogin }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   // const [hasgtag,setHashtag] = useState("");
@@ -26,6 +26,7 @@ function Posting() {
     console.log("userInfo Changed!");
   }, [title, content]);
 
+  //  클릭함수 로그인된거 처리하기
   // async function clickPosting() {
   //   let result = await axios.post("http://localhost:8080/post", {
   //     title,
@@ -70,9 +71,11 @@ function Posting() {
                 margin: "1%",
               }}
             >
-              U
+              {isLogin ? userInfo[0] : "U"}
             </Avatar>
-            <Typography variant="h5">UserName</Typography>
+            <Typography variant="h5">
+              {isLogin ? `${userInfo}` : "Undefined"}
+            </Typography>
           </Box>
 
           <TextField

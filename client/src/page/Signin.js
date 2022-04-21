@@ -32,9 +32,9 @@ function Signin({ userinfoSetting }) {
         password,
       });
 
-      console.log(email);
+      console.log(result);
       userinfoSetting(email);
-      window.alert(result.data.message);
+      window.alert(result.data);
       navigate("/");
     } catch (e) {
       console.log(e);
