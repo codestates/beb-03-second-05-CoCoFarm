@@ -5,7 +5,27 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import { useState, useEffect } from "react";
 function Signin() {
+  const [email, setEmail] = useState(undefined);
+  const [password, setPassword] = useState(undefined);
+
+  function emailHandler(e) {
+    setEmail(e.target.value);
+  }
+  function passwordHandler(e) {
+    setPassword(e.target.value);
+  }
+
+  useEffect(() => {
+    console.log("userInfo Changed!");
+  }, [email, password]);
+
+  // TODO : onClick 함수 작성
+  async function clickSignin() {
+    // let result = axios.get()
+  }
+
   return (
     <div className="Signin">
       <Container
@@ -38,7 +58,12 @@ function Signin() {
           >
             SIGN IN
           </Typography>
-          <TextField id="standard-basic" label="ID" variant="standard" />
+          <TextField
+            id="standard-basic"
+            label="E-MAIL"
+            variant="standard"
+            onChange={emailHandler}
+          />
 
           <TextField
             id="standard-password-input"
@@ -46,6 +71,7 @@ function Signin() {
             type="password"
             autoComplete="current-password"
             variant="standard"
+            onChange={passwordHandler}
           />
           <br />
           <Button

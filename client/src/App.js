@@ -4,9 +4,10 @@ import Signin from "./page/Signin";
 import Signup from "./page/Signup";
 import Posting from "./page/Posting";
 import Postdetail from "./page/Postdetail";
+import Mypage from "./page/Mypage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+//userInfo는 app.js에서 세팅
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/posting" element={<Posting />}></Route>
           <Route path="/postdetail" element={<Postdetail />}></Route>
+          <Route path="/mypage" element={<Mypage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
