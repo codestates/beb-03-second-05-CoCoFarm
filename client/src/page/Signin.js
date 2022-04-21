@@ -6,6 +6,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
+import axios from "axios";
 function Signin() {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -23,7 +24,14 @@ function Signin() {
 
   // TODO : onClick 함수 작성
   async function clickSignin() {
-    // let result = axios.get()
+    console.log("email: ", email);
+    console.log("Passwd: ", password);
+    let result = await axios.post("http://localhost:8080/login", {
+      email,
+      password,
+    });
+
+    window.alert(result.data.message);
   }
 
   return (
@@ -76,6 +84,7 @@ function Signin() {
           <br />
           <Button
             variant="outlined"
+            onClick={clickSignin}
             style={{
               border: "orange",
               color: "orange",
