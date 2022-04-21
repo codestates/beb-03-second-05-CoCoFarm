@@ -48,7 +48,7 @@ function Signup() {
     try {
       // 문제 없으면 콘솔에 출력 후 리디렉션
       if (signupFlag) {
-        let result = axios.post("http://localhost:8000/signup", {
+        let result = await axios.post("http://localhost:8000/signup", {
           username,
           password,
           wallet,

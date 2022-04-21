@@ -5,7 +5,9 @@ import {
   Typography,
   Divider,
   Chip,
+  IconButton,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
 import { useState } from "react";
 import Post from "../components/post";
@@ -82,7 +84,25 @@ function Mypage() {
           />
 
           <Divider variant="middle" />
-          <Post />
+
+          <Box
+            className="MyPostingArea"
+            style={{
+              display: "flex",
+              margin: "1rem",
+            }}
+          >
+            <Post />
+            <IconButton
+              style={{
+                width: "3rem",
+                height: "3rem",
+                alignSelf: "center",
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Box>
         </Box>
       </Container>
     </div>
