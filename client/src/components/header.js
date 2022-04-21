@@ -72,6 +72,7 @@ export default function Header({ isLogin, handleLogout }) {
     handleMobileMenuClose();
   };
   const logOut = () => {
+    window.alert("sign out success!");
     handleLogout();
   };
 

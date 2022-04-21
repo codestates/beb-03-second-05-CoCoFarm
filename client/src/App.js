@@ -35,9 +35,15 @@ function App() {
             element={<Signin userinfoSetting={userinfoSetting} />}
           ></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/posting" element={<Posting />}></Route>
+          <Route
+            path="/posting"
+            element={<Posting isLogin={isLogin} userInfo={userInfo} />}
+          ></Route>
           <Route path="/postdetail" element={<Postdetail />}></Route>
-          <Route path="/mypage" element={<Mypage isLogin={isLogin} />}></Route>
+          <Route
+            path="/mypage"
+            element={<Mypage isLogin={isLogin} userInfo={userInfo} />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

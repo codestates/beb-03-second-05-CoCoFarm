@@ -13,7 +13,7 @@ import axios from "axios";
 import { useState } from "react";
 import Post from "../components/post";
 
-function Mypage() {
+function Mypage({ isLogin, userInfo }) {
   return (
     <div className="Mypage">
       <Container
@@ -43,17 +43,19 @@ function Mypage() {
             }}
           >
             <Box>
-              <Avatar
-                style={{
-                  width: "5rem",
-                  height: "5rem",
-                  fontSize: "3rem",
-                  background: "orange",
-                  margin: "1rem",
-                }}
-              >
-                U
-              </Avatar>
+              {isLogin ? (
+                <Avatar
+                  style={{
+                    width: "5rem",
+                    height: "5rem",
+                    fontSize: "3rem",
+                    background: "orange",
+                    margin: "1rem",
+                  }}
+                >
+                  {userInfo[0]}
+                </Avatar>
+              ) : null}
             </Box>
 
             <Box
@@ -64,14 +66,16 @@ function Mypage() {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h4">Welcome,UserName</Typography>
+              <Typography variant="h4">
+                {isLogin ? `${userInfo}` : "Please Sign-in First"}
+              </Typography>
               <Typography
                 variant="body1"
                 style={{
                   color: "gray",
                 }}
               >
-                your cocos : 0
+                {isLogin ? "your cocos : 0" : null}
               </Typography>
             </Box>
           </Box>
@@ -93,7 +97,7 @@ function Mypage() {
               margin: "1rem",
             }}
           >
-            <Post />
+            {isLogin ? <Post /> : null}
             <IconButton
               style={{
                 width: "3rem",
