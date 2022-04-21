@@ -107,6 +107,13 @@ function Signup() {
           />
           <TextField
             id="standard-basic"
+            label="PHONE"
+            variant="standard"
+            onChange={phoneHandler}
+          />
+
+          <TextField
+            id="standard-basic"
             label="E-MAIL"
             variant="standard"
             onChange={emailHandler}
@@ -128,18 +135,6 @@ function Signup() {
           >
             {signupFlag ? "" : WarningMessage}
           </Typography>
-          <TextField
-            id="standard-basic"
-            label="WALLET"
-            variant="standard"
-            onChange={walletHandler}
-          />
-          <TextField
-            id="standard-basic"
-            label="PHONE"
-            variant="standard"
-            onChange={phoneHandler}
-          />
 
           <br />
           <Button
