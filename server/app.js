@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    //쿠키 header 넣어주려면 해줘야함.
+    //쿠키 header 넣어주려면 필요
   })
 );
 app.use(cookieParser());
