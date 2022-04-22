@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { config } from "../config.js";
 import Post from "../model/post.js";
+import User from "../model/users.js";
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.post("/", async (req, res) => {
   });
 
   const author = data.username;
+  const email = data.email;
   const { title, content } = req.body;
 
   const postSchema = {
@@ -29,8 +31,15 @@ router.post("/", async (req, res) => {
     comments: [],
   };
 
+  // 게시물 작성한거를 유저의 posts에도 추가
   try {
     await Post.create(postSchema);
+    const newPostId = await Post.findOne(postSchema);
+    const userPosts = await User.findOne({ email: email });
+    await User.updateOne(
+      { email: email },
+      { posts: [...userPosts["posts"], newPostId.id] }
+    );
     res.status(200).send({ message: "게시물이 등록되었습니다." });
   } catch (err) {
     console.log(err);
