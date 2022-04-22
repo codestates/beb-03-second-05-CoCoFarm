@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
-  //패스워드 디코딩 ? 해서 비교해야함.
+
   console.log(email, password);
   try {
     const user = await User.findOne({ email });
@@ -17,10 +17,10 @@ router.post("/", async (req, res) => {
         .send({ success: false, message: "가입이 되어있지 않습니다." });
     }
 
-    const result = await comparePassword(password, query.password);
+    const result = await comparePassword(password, user.password);
     // console.log(result);
     if (result) {
-      const token = createToken(query);
+      const token = createToken(user);
       res
         .status(200)
         .cookie("jwt", token)
