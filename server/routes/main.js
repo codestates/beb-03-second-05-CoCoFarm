@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
         nickName: post.author,
         title: post.title,
         content: post.content,
+        comments: post.comments,
         timestamp: ObjectId(post.id).getTimestamp(),
         commentsCount: post.comments.length,
         likeCount: post.wholiked.length,
@@ -37,8 +38,6 @@ router.get("/", async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: "게시물을 불러오는데 실패했습니다." });
   }
-
-  console.log(setData);
 });
 
 export default router;

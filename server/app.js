@@ -14,7 +14,11 @@ import postingRouter from "./routes/posting.js";
 import editRouter from "./routes/edit.js";
 import tokenAuthRouter from "./routes/tokenAuth.js";
 import mainPageRouter from "./routes/main.js";
+
 import myPageRouter from "./routes/myPage.js";
+
+import postDetail from "./routes/postDetail.js";
+
 
 // import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
@@ -45,7 +49,11 @@ app.use("/edit", editRouter);
 
 app.use("/cocofarm", mainPageRouter);
 
+
 app.use("/myPage", myPageRouter);
+
+app.use("/posts", postDetail);
+
 
 // 에러처리
 app.use((error, req, res, next) => {
