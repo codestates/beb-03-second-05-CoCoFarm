@@ -2,6 +2,7 @@ import express from "express";
 import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
 import { decodingToken } from "../auth/decodingToken.js";
+import Post from "../model/post.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -9,12 +10,19 @@ router.get("/", async (req, res) => {
   const data = decodingToken(token);
   console.log(data);
   const nickname = data.nickName;
+  console.log(nickname);
   try {
     const user = await User.findOne({ nickName: nickname });
     console.log(user);
     // 토큰 잔액 추가해줘야함.
     const { nickName, email, avartar, posts } = user;
-    res.send({ nickName, email, avartar, posts });
+    const mapPosts = await posts.map(async (postId) => {
+      const post = await Post.find({ _id: postId });
+      return post;
+    });
+
+    console.log(mapPosts);
+    res.send({ nickName, email, avartar, posts: mapPosts });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "서버에서 읽을수가 없습니다." });
