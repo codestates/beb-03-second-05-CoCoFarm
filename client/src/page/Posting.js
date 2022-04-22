@@ -8,12 +8,20 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Posting({ userInfo, isLogin }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   // const [hasgtag,setHashtag] = useState("");
   // optional
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+
+  const getCookie = (name) => {
+    return cookies.get(name);
+  };
 
   function handleTitle(e) {
     setTitle(e.target.value);
@@ -27,12 +35,23 @@ function Posting({ userInfo, isLogin }) {
   }, [title, content]);
 
   //  클릭함수 로그인된거 처리하기
-  // async function clickPosting() {
-  //   let result = await axios.post("http://localhost:8080/post", {
-  //     title,
-  //     content,
-  //   });
-  // }
+  async function clickPosting() {
+    let result = await axios.post(
+      "https://localhost:8080/posting",
+      {
+        title,
+        content,
+      },
+      {
+        headers: {
+          Authorization: getCookie("jwt"),
+        },
+      },
+      { withCredentials: true }
+    );
+    window.alert(result.data.message);
+    navigate("/");
+  }
   return (
     <div className="Posting">
       <Container
@@ -127,6 +146,7 @@ function Posting({ userInfo, isLogin }) {
           >
             <Button
               variant="contained"
+              onClick={clickPosting}
               style={{
                 backgroundColor: "darkorange",
                 color: "white",

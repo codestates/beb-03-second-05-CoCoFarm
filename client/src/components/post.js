@@ -44,7 +44,7 @@ export default function Post() {
           <IconButton
             aria-label="detailview"
             component={Link}
-            to={"/postdetail"}
+            to={`/postdetail`}
           >
             <VisibilityIcon />
           </IconButton>
