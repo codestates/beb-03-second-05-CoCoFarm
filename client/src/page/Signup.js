@@ -46,10 +46,10 @@ function Signup() {
         let result = await axios.post(
           "https://localhost:8080/signup",
           {
-            nickname,
+            nickName: nickname,
             password,
             email,
-            phone,
+            phoneNumber: phone,
           },
           { withCredentials: true }
         );

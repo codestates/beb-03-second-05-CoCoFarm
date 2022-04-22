@@ -1,6 +1,6 @@
 import Post from "../components/post";
 import { Container, Box } from "@material-ui/core";
-function Main() {
+function Main({ postings }) {
   return (
     <div className="Main">
       <Container
@@ -8,27 +8,18 @@ function Main() {
           padding: "1%",
         }}
       >
-        <Box
-          style={{
-            padding: "1%",
-          }}
-        >
-          <Post />
-        </Box>
-        <Box
-          style={{
-            padding: "1%",
-          }}
-        >
-          <Post />
-        </Box>
-        <Box
-          style={{
-            padding: "1%",
-          }}
-        >
-          <Post />
-        </Box>
+        {postings &&
+          postings.map((item) => {
+            return (
+              <Box
+                style={{
+                  padding: "1%",
+                }}
+              >
+                <Post item={item} />
+              </Box>
+            );
+          })}
       </Container>
     </div>
   );

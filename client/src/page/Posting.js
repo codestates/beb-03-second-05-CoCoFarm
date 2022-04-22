@@ -42,11 +42,7 @@ function Posting({ userInfo, isLogin }) {
         title,
         content,
       },
-      {
-        headers: {
-          Authorization: getCookie("jwt"),
-        },
-      },
+
       { withCredentials: true }
     );
     window.alert(result.data.message);

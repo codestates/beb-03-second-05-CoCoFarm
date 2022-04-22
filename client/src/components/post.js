@@ -30,9 +30,8 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Post() {
+export default function Post({ item }) {
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -44,13 +43,13 @@ export default function Post() {
           <IconButton
             aria-label="detailview"
             component={Link}
-            to={`/postdetail`}
+            to={`/postdetail/${item.p_id}`}
           >
             <VisibilityIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={`${item.nickName}`}
+        subheader={`${item.timestamp}`}
       />
       {/* <CardMedia
         component="img"
@@ -60,12 +59,10 @@ export default function Post() {
       /> */}
       <CardContent>
         <Typography variant="h6" color="inherit">
-          Title
+          {`${item.title}`}
         </Typography>
         <Typography variant="body2" color="inherit">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {`${item.content}`}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

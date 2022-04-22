@@ -13,39 +13,12 @@ import ShareIcon from "@material-ui/icons/Share";
 import SendIcon from "@material-ui/icons/Send";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
-import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Comment from "../components/comment";
-import axios from "axios";
 
-function Postdetail() {
-  const location = useLocation();
-  const path = location.pathname.split("/");
-
-  const p_id = path[path.length - 1];
-  const [curPost, setCurPost] = useState(null);
-
-  async function getOnePost(postId) {
-    let result = await axios.get(
-      `https://localhost:8080/posts?p_id=${postId}`,
-      {
-        withCredentials: true,
-      }
-    );
-    // console.log(result.data);
-    return result.data;
-  }
-  useEffect(() => {
-    getOnePost(p_id).then(setCurPost);
-    // console.log(curPost);
-  }, []);
-
-  useEffect(() => {
-    console.log(curPost);
-  }, [curPost]);
-
+function Postedit() {
   return (
-    <div className="Postdetail">
+    <div className="Postedit">
       <Container
         style={{
           width: "60%",
@@ -80,16 +53,14 @@ function Postdetail() {
               U
             </Avatar>
             <Box className="NameAndDate">
-              <Typography variant="h5">
-                {curPost ? curPost.post.author : ""}
-              </Typography>
+              <Typography variant="h5">Username</Typography>
               <Typography
                 variant="body2"
                 style={{
                   color: "gray",
                 }}
               >
-                {curPost ? curPost.post.timestamp : ""}
+                September 14, 2016
               </Typography>
             </Box>
           </Box>
@@ -101,11 +72,9 @@ function Postdetail() {
                 marginRight: "5%",
               }}
             >
-              <Typography variant="h5">
-                {curPost ? curPost.post.title : ""}
-              </Typography>
+              <Typography variant="h5">Title</Typography>
               <Typography variant="body1">
-                {curPost ? curPost.post.content : ""}
+                저는 오늘 점심으로 라면 먹었어요. 저녁은 뭐 먹을까요?
               </Typography>
             </Box>
           </Box>
@@ -162,4 +131,4 @@ function Postdetail() {
   );
 }
 
-export default Postdetail;
+export default Postedit;
