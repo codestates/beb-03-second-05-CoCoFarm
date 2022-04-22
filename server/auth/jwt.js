@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config.js";
 export const createToken = (payload) => {
-  const { username, email } = payload;
+  const { nickName, email } = payload;
   const data = {
-    username,
+    nickName,
     email,
   };
   const token = jwt.sign(data, config.secretKey, {

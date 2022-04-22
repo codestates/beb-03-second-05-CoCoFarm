@@ -20,8 +20,8 @@ router.post("/", async (req, res) => {
       console.log(user);
 
       // 또 새로운 토큰 발행해줘야할까..?
-
-      res.status(200).send({ user });
+      const { nickName } = user;
+      res.status(200).send({ email, nickName });
     }
   });
 });
