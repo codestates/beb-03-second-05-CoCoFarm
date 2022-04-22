@@ -1,5 +1,5 @@
 import express from "express";
-import { token } from "morgan";
+
 import { createToken } from "../auth/jwt.js";
 import { comparePassword } from "../auth/password.js";
 import User from "../model/users.js";
@@ -10,8 +10,8 @@ router.post("/", async (req, res) => {
   //패스워드 디코딩 ? 해서 비교해야함.
   console.log(email, password);
   try {
-    const query = await User.findOne({ email });
-    if (query === null) {
+    const user = await User.findOne({ email });
+    if (user === null) {
       res
         .status(400)
         .send({ success: false, message: "가입이 되어있지 않습니다." });

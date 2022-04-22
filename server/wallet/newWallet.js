@@ -24,6 +24,7 @@ const newWallet = async (password) => {
             address,
             privateKey,
           };
+          // 바로 변수로 땡겨오고 싶은데... 콜백지옥이라서 안됨.. 파일로 빼야함..
           fs.writeFile("wallet.json", JSON.stringify(keySet), (err, data) => {
             if (err) {
               console.log(err);
