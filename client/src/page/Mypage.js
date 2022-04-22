@@ -10,10 +10,24 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Post from "../components/post";
 
 function Mypage({ isLogin, userInfo }) {
+  const [myposts, setMyposts] = useState(undefined);
+
+  async function getMypost() {
+    let result = await axios.get("https://localhost:8080/myPage", {
+      withCredentials: true,
+    });
+    return result.data.posts;
+  }
+  useEffect(() => {
+    getMypost().then(setMyposts);
+  }, []);
+  useEffect(() => {
+    console.log(myposts);
+  }, [myposts]);
   return (
     <div className="Mypage">
       <Container
@@ -97,7 +111,8 @@ function Mypage({ isLogin, userInfo }) {
               margin: "1rem",
             }}
           >
-            {isLogin ? <Post /> : null}
+            {/* 나의 게시물 렌더링 */}
+            {isLogin ? null : null}
             <IconButton
               style={{
                 width: "3rem",

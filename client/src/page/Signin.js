@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Signin({ userinfoSetting }) {
+function Signin() {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const navigate = useNavigate();
@@ -36,7 +36,6 @@ function Signin({ userinfoSetting }) {
         { withCredentials: true }
       );
 
-      userinfoSetting(email);
       window.alert(result.data.message);
       navigate("/");
     } catch (e) {

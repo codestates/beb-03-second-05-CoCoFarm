@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../model/users.js";
+import { ObjectId } from "mongodb";
 import { hashedPassword } from "../auth/password.js";
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
@@ -16,12 +17,15 @@ router.get("/", async (req, res) => {
     console.log(user);
     // 토큰 잔액 추가해줘야함.
     const { nickName, email, avartar, posts } = user;
-    const mapPosts = await posts.map(async (postId) => {
-      const post = await Post.find({ _id: postId });
-      return post;
-    });
+
+    const mapPosts = await Promise.all(
+      posts.map((postId) => {
+        return Post.findOne({ _id: ObjectId(postId) });
+      })
+    );
 
     console.log(mapPosts);
+
     res.send({ nickName, email, avartar, posts: mapPosts });
   } catch (err) {
     console.log(err);
