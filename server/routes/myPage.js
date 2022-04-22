@@ -1,11 +1,14 @@
 import express from "express";
 import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
+import { decodingToken } from "../auth/decodingToken.js";
 const router = express.Router();
 
-router.get("/:nickname", async (req, res) => {
-  const { nickname } = req.params;
-
+router.get("/", async (req, res) => {
+  const token = req.cookies.jwt;
+  const data = decodingToken(token);
+  console.log(data);
+  const nickname = data.nickName;
   try {
     const user = await User.findOne({ nickName: nickname });
     console.log(user);
@@ -20,16 +23,16 @@ router.get("/:nickname", async (req, res) => {
 
 router.post("/:nickName", async (req, res) => {
   try {
-    const { nickName } = req.params;
+    const token = req.cookies.jwt;
+    const data = decodingToken(token);
+    const nickName = data.nickName;
     const userSchema = req.body;
     if (userSchema.password !== undefined) {
       userSchema.password = hashedPassword(userSchema.password);
     }
-    const user1 = await User.findOneAndUpdate(
-      { nickName: nickName },
-      userSchema,
-      { new: true }
-    );
+    const user1 = await User.findOneAndUpdate({ nickName }, userSchema, {
+      new: true,
+    });
     console.log(user1);
     res.status(200).send({ message: "회원정보 수정이 완료 되었습니다." });
   } catch (err) {
