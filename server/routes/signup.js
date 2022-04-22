@@ -9,7 +9,7 @@ import newWallet from "../wallet/newWallet.js";
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { username, password, email, phoneNumber } = req.body;
+  const { nickname, password, email, phoneNumber } = req.body;
   try {
     // email, wallet이 있으면 res.status(400).send({message:'이미 존재하는 계정입니다.'})
     // email,wallet이 없으면 res.status(200).send({message:'회원가입 성공}) 토큰 전송
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
         }
       });
       const userSchema = {
-        username,
+        nickname,
         password: await hashedPassword(password),
         email,
         phoneNumber,
