@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
       timestamp: ObjectId(p_id).getTimestamp(),
       commentsCount: post.comments.length,
       likeCount: post.wholiked.length,
-      like: post.wholiked.includes(data.username),
+      like: post.wholiked.includes(data.nickName),
     };
 
     res.status(200).send({ post: body });

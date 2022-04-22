@@ -1,6 +1,5 @@
 import express from "express";
-import jwt from "jsonwebtoken";
-import { config } from "../config.js";
+import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
 import User from "../model/users.js";
 
@@ -12,16 +11,9 @@ router.post("/", async (req, res) => {
   // db에는 author, title, content, comments
 
   // const token = req.headers["authorization"];
-  const token = req.cookies.jwt;
-  const data = jwt.verify(token, config.secretKey, (error, decoded) => {
-    if (error) {
-      console.log(error);
-    } else {
-      return decoded;
-    }
-  });
+  const data = decodingToken(req.cookies.jwt);
 
-  const author = data.username;
+  const author = data.nickName;
   const email = data.email;
   const { title, content } = req.body;
 

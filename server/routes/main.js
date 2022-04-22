@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
         timestamp: ObjectId(post.id).getTimestamp(),
         commentsCount: post.comments.length,
         likeCount: post.wholiked.length,
-        like: post.wholiked.includes(data.username),
+        like: post.wholiked.includes(data.nickName),
       };
     });
 

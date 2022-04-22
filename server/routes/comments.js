@@ -1,6 +1,6 @@
 import express from "express";
-import jwt from "jsonwebtoken";
-import { config } from "../config.js";
+import { ObjectId } from "mongodb";
+import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
 
 const router = express.Router();
@@ -12,17 +12,12 @@ router.post("/", async (req, res) => {
   // comments 부분을 업데이트
 
   // const token = req.headers["authorization"];
-  const token = req.cookies.jwt;
-  const data = jwt.verify(token, config.secretKey, (error, decoded) => {
-    if (error) {
-      console.log(error);
-    } else {
-      return decoded;
-    }
-  });
+  const data = decodingToken(req.cookies.jwt);
 
-  const author = data.username;
+  const author = data.nickName;
   const { p_id, comment } = req.body;
+
+  const post = await Post.findOne({ id: ObjectId(p_id) });
 });
 
 export default router;
