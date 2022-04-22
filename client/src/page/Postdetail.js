@@ -13,6 +13,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import SendIcon from "@material-ui/icons/Send";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
+import { useLocation } from "react-router-dom";
 import Comment from "../components/comment";
 
 function Postdetail() {

@@ -37,20 +37,22 @@ function Signup() {
     } else {
       setSignupFlag(false);
     }
-    console.log(signupFlag);
   }, [username, password, email, phone, signupFlag]);
 
   async function clickSignup() {
     try {
       // 문제 없으면 콘솔에 출력 후 리디렉션
       if (signupFlag) {
-        let result = await axios.post("http://localhost:8080/signup", {
-          username,
-          password,
-          email,
-          phone,
-        });
-        console.log(result.headers);
+        let result = await axios.post(
+          "https://localhost:8080/signup",
+          {
+            username,
+            password,
+            email,
+            phone,
+          },
+          { withCredentials: true }
+        );
         window.alert(result.data.message);
         // window.alert("회원가입 성공!");
         navigate("/");
@@ -95,27 +97,27 @@ function Signup() {
             SIGN UP
           </Typography>
           <TextField
-            id="standard-basic"
+            id="usernameInput"
             label="USERNAME"
             variant="standard"
             onChange={usernameHandler}
           />
           <TextField
-            id="standard-basic"
+            id="phoneInput"
             label="PHONE"
             variant="standard"
             onChange={phoneHandler}
           />
 
           <TextField
-            id="standard-basic"
+            id="emailInput"
             label="E-MAIL"
             variant="standard"
             onChange={emailHandler}
           />
 
           <TextField
-            id="standard-password-input"
+            id="passwordInput"
             label="PASSWORD"
             type="password"
             autoComplete="current-password"

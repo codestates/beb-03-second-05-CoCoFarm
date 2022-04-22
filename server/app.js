@@ -21,6 +21,7 @@ const port = config.host || 8000;
 app.use(express.json());
 app.use(
   cors({
+    origin: ["https://localhost:3000"],
     credentials: true,
     //쿠키 header 넣어주려면 필요
   })

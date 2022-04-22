@@ -27,14 +27,17 @@ function Signin({ userinfoSetting }) {
   // TODO : onClick 함수 작성
   async function clickSignin() {
     try {
-      let result = await axios.post("http://localhost:8080/login", {
-        email,
-        password,
-      });
+      let result = await axios.post(
+        "https://localhost:8080/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
-      console.log(result);
       userinfoSetting(email);
-      window.alert(result.data);
+      window.alert(result.data.message);
       navigate("/");
     } catch (e) {
       console.log(e);
