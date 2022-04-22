@@ -10,6 +10,5 @@
 *.pem
 
 .DS_Store
-
-
 wallet.json
+
