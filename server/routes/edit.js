@@ -8,7 +8,8 @@ const router = express.Router();
 export default router;
 
 router.put("/", async (req, res) => {
-  const token = req.headers["authorization"];
+  // const token = req.headers["authorization"];
+  const token = req.cookies.jwt;
   const data = jwt.verify(token, config.secretKey, (error, decoded) => {
     if (error) {
       console.log(error);

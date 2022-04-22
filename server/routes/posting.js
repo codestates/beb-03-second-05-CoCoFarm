@@ -11,7 +11,8 @@ router.post("/", async (req, res) => {
   // body : title, content
   // db에는 author, title, content, comments
 
-  const token = req.headers["authorization"];
+  // const token = req.headers["authorization"];
+  const token = req.cookies.jwt;
   const data = jwt.verify(token, config.secretKey, (error, decoded) => {
     if (error) {
       console.log(error);
