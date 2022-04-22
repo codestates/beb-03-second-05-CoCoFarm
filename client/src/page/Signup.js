@@ -12,14 +12,14 @@ import axios from "axios";
 function Signup() {
   let navigate = useNavigate();
   const WarningMessage = "* 비밀번호는 4자리 이상이어야 합니다. *";
-  const [username, setUsername] = useState(undefined);
+  const [nickname, setNickname] = useState(undefined);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(undefined);
   const [phone, setPhone] = useState(undefined);
   const [signupFlag, setSignupFlag] = useState(false);
 
-  function usernameHandler(e) {
-    setUsername(e.target.value);
+  function nicknameHandler(e) {
+    setNickname(e.target.value);
   }
   function passwordHandler(e) {
     setPassword(e.target.value);
@@ -37,7 +37,7 @@ function Signup() {
     } else {
       setSignupFlag(false);
     }
-  }, [username, password, email, phone, signupFlag]);
+  }, [nickname, password, email, phone, signupFlag]);
 
   async function clickSignup() {
     try {
@@ -46,7 +46,7 @@ function Signup() {
         let result = await axios.post(
           "https://localhost:8080/signup",
           {
-            username,
+            nickname,
             password,
             email,
             phone,
@@ -97,10 +97,10 @@ function Signup() {
             SIGN UP
           </Typography>
           <TextField
-            id="usernameInput"
-            label="USERNAME"
+            id="nicknameInput"
+            label="NICKNAME"
             variant="standard"
-            onChange={usernameHandler}
+            onChange={nicknameHandler}
           />
           <TextField
             id="phoneInput"

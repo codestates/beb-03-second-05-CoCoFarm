@@ -12,6 +12,7 @@ import loginRouter from "./routes/login.js";
 import singUpRouter from "./routes/signup.js";
 import postingRouter from "./routes/posting.js";
 import editRouter from "./routes/edit.js";
+import tokenAuthRouter from "./routes/tokenAuth.js";
 
 // import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
@@ -31,6 +32,7 @@ app.use(helmet());
 app.use(morgan("tiny"));
 
 // 로그인 시 라우터
+app.use("/tokenAuth", tokenAuthRouter);
 app.use("/login", loginRouter);
 
 app.use("/signup", singUpRouter);
@@ -38,6 +40,12 @@ app.use("/signup", singUpRouter);
 app.use("/posting", postingRouter);
 
 app.use("/edit", editRouter);
+
+// 에러처리
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.sendStatus(500);
+});
 
 // DB 연결
 connectDB()
@@ -49,11 +57,11 @@ connectDB()
       const credentials = { key: privateKey, cert: certificate };
       const server = https.createServer(credentials, app);
       server.listen(port, () => {
-        console.log("https 서버 시작");
+        console.log(`${port}https 서버 시작`);
       });
     } else {
       app.listen(port, () => {
-        console.log("http 서버 시작!");
+        console.log(`${port}http 서버 시작!`);
       });
     }
   })
