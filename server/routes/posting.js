@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
 
   // const token = req.headers["authorization"];
   const data = decodingToken(req.cookies.jwt);
-
+  console.log(data);
   const author = data.nickName;
   const email = data.email;
   const { title, content } = req.body;
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
     content,
     comments: [],
   };
-
+  console.log(postSchema);
   // 게시물 작성한거를 유저의 posts에도 추가
   try {
     await Post.create(postSchema);
