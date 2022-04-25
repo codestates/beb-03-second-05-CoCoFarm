@@ -5,13 +5,11 @@ import {
   Typography,
   Divider,
   Chip,
-  IconButton,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Post from "../components/post";
+import Mypost from "../components/mypost";
 
 function Mypage({ isLogin, userInfo }) {
   const [myposts, setMyposts] = useState(undefined);
@@ -26,7 +24,7 @@ function Mypage({ isLogin, userInfo }) {
     getMypost().then(setMyposts);
   }, []);
   useEffect(() => {
-    console.log(myposts);
+    console.log("my postings : ", myposts);
   }, [myposts]);
   return (
     <div className="Mypage">
@@ -47,6 +45,7 @@ function Mypage({ isLogin, userInfo }) {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
+            flexWrap: "wrap",
           }}
         >
           <Box
@@ -67,7 +66,7 @@ function Mypage({ isLogin, userInfo }) {
                     margin: "1rem",
                   }}
                 >
-                  {userInfo[0]}
+                  {userInfo[0] || "U"}
                 </Avatar>
               ) : null}
             </Box>
@@ -109,28 +108,25 @@ function Mypage({ isLogin, userInfo }) {
             style={{
               display: "flex",
               margin: "1rem",
+              flexWrap: "wrap",
             }}
           >
             {/* 나의 게시물 렌더링 */}
-            {isLogin ? null : null}
-            <IconButton
-              style={{
-                width: "3rem",
-                height: "3rem",
-                alignSelf: "center",
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              style={{
-                width: "3rem",
-                height: "3rem",
-                alignSelf: "center",
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
+            {isLogin
+              ? myposts &&
+                myposts.map((item) => {
+                  return (
+                    <Box
+                      style={{
+                        padding: "1%",
+                        width: "100%",
+                      }}
+                    >
+                      <Mypost item={item} />
+                    </Box>
+                  );
+                })
+              : null}
           </Box>
         </Box>
       </Container>

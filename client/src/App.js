@@ -24,20 +24,43 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(userInfo);
-    console.log(isLogin);
+    console.log("userNickname : ", userInfo);
+    console.log("isLogin? : ", isLogin);
   }, [userInfo, isLogin]);
+
+  useEffect(() => {
+    console.log("current postings : ", postings);
+  }, [postings]);
 
   const getCookie = (name) => {
     return cookies.get(name);
   };
 
   // 포스팅 불러오는 함수
-  async function getPostings() {
+  async function getPostings(item) {
     let result = await axios.get("https://localhost:8080/cocofarm", {
       withCredentials: true,
     });
-    setPostings(result.data.posts);
+    // 검색어가 존재한다면 필터링해서 보여주기
+    if (item) {
+      console.log(item);
+      let posts = result.data.posts;
+      posts = posts.filter((elem) => {
+        if (
+          elem.nickName.includes(item) ||
+          elem.title.includes(item) ||
+          elem.content.includes(item)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log("filtering : ", posts);
+      setPostings([...posts]);
+    } else {
+      setPostings(result.data.posts);
+    }
   }
 
   async function tokenSignin() {
@@ -64,7 +87,11 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLogin={isLogin} handleLogout={handleLogout} />
+        <Header
+          isLogin={isLogin}
+          handleLogout={handleLogout}
+          getPostings={getPostings}
+        />
         <Routes>
           <Route exact path="/" element={<Main postings={postings} />}></Route>
           <Route path="/signin" element={<Signin />}></Route>
@@ -74,8 +101,10 @@ function App() {
             element={<Posting isLogin={isLogin} userInfo={userInfo} />}
           ></Route>
           <Route path="/postdetail/:index" element={<Postdetail />}></Route>
-          {/* <Route path="/postdetail" element={<Postdetail />}></Route> */}
-          <Route path="/postedit" element={<Postedit />}></Route>
+          <Route
+            path="/postedit/:index"
+            element={<Postedit userInfo={userInfo} />}
+          ></Route>
           <Route
             path="/mypage"
             element={<Mypage isLogin={isLogin} userInfo={userInfo} />}

@@ -15,8 +15,6 @@ import Button from "@material-ui/core/Button";
 
 import WbSunnyOutlinedIcon from "@material-ui/icons/WbSunnyOutlined";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import CreateIcon from "@material-ui/icons/Create";
 
@@ -51,7 +49,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header({ isLogin, handleLogout }) {
+export default function Header({ isLogin, handleLogout, getPostings }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -82,6 +80,12 @@ export default function Header({ isLogin, handleLogout }) {
 
   const clickMypage = () => {
     navigate("/mypage");
+  };
+  //  검색 함수
+  const onSearch = (e) => {
+    if (e.keyCode === 13) {
+      getPostings(e.target.value);
+    }
   };
   const menuId = "primary-search-account-menu";
   // const renderMenu = (
@@ -189,6 +193,7 @@ export default function Header({ isLogin, handleLogout }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onKeyUp={onSearch}
               style={{
                 width: "100%",
                 paddingLeft: "1%",
