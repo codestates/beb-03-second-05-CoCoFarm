@@ -18,7 +18,7 @@ class ServerAccounts {
     try {
       const amount = await this.contract.balanceOf(this.wallet.address);
       const number = await amount.toNumber();
-      console.log(number);
+      return number;
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +31,7 @@ class ServerAccounts {
       await sendToken.wait();
       const transaction = {
         to: toAddress,
-        value: ethers.utils.parseEther(1),
+        value: ethers.utils.parseEther("1.0"),
       };
       const sendEther = await this.wallet.sendTransaction(transaction);
       await sendEther.wait();
@@ -43,5 +43,7 @@ class ServerAccounts {
 }
 
 const ServerAccount = new ServerAccounts();
-console.log(`서버 남은 토큰:${ServerAccount.balanceOf()}`);
+ServerAccount.balanceOf().then((result) =>
+  console.log(`서버 남은 토큰:${result}`)
+);
 export default ServerAccount;
