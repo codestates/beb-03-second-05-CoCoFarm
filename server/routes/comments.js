@@ -38,9 +38,9 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   // 댓글 삭제
   // 댓글 id를 찾아서 댓글 배열에서 해당 댓글 삭제
-
-  const { p_id, c_id } = req.body;
-
+  // delete는 body가 없어서 쿼리로 p_id, c_id 전달
+  const p_id = req.query.p_id;
+  const c_id = req.query.c_id;
   try {
     const post = await Post.findOne({ _id: ObjectId(p_id) });
     const comments = post.comments;
