@@ -13,34 +13,76 @@ import ShareIcon from "@material-ui/icons/Share";
 import SendIcon from "@material-ui/icons/Send";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Comment from "../components/comment";
 
-function Postedit() {
+function Postedit({ userInfo }) {
+  const location = useLocation();
+  const path = location.pathname.split("/");
+  const p_id = path[path.length - 1];
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const navigate = useNavigate();
+
+  function handleTitle(e) {
+    setTitle(e.target.value);
+  }
+  function handleContent(e) {
+    setContent(e.target.value);
+  }
+
+  useEffect(() => {
+    console.log("userInfo Changed!");
+  }, [title, content]);
+
+  //  클릭함수 로그인된거 처리하기
+  async function clickPosting() {
+    let result = await axios.put(
+      "https://localhost:8080/edit",
+      {
+        p_id,
+        title,
+        content,
+      },
+
+      { withCredentials: true }
+    );
+    window.alert(result.data.message);
+    navigate("/");
+  }
   return (
     <div className="Postedit">
       <Container
         style={{
-          width: "60%",
           padding: "1%",
           display: "flex",
+          height: "90vh",
+          alignItems: "center",
         }}
       >
         {/* 흰 배경 박스 */}
         <Box
           style={{
-            marginTop: "5%",
-            borderRadius: "10px",
-            backgroundColor: "white",
+            background: "white",
+            borderRadius: "5px",
             width: "100%",
+            height: "80%",
             padding: "1%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
           <Box
-            className="UserInfo"
+            className="header"
             style={{
               display: "flex",
               padding: "1%",
+              height: "10%",
               alignItems: "center",
             }}
           >
@@ -50,80 +92,68 @@ function Postedit() {
                 margin: "1%",
               }}
             >
-              U
+              {userInfo[0] || "U"}
             </Avatar>
-            <Box className="NameAndDate">
-              <Typography variant="h5">Username</Typography>
-              <Typography
-                variant="body2"
-                style={{
-                  color: "gray",
-                }}
-              >
-                September 14, 2016
-              </Typography>
-            </Box>
+            <Typography variant="h5">{userInfo}</Typography>
           </Box>
-          <Box className="ContentArea">
-            <Box
-              className="Title"
+
+          <TextField
+            id="standard-basic"
+            label="Title"
+            variant="standard"
+            multiline
+            minrow={2}
+            maxRows={2}
+            onChange={handleTitle}
+            style={{
+              width: "98%",
+              left: "1%",
+            }}
+          />
+
+          <br />
+          <Box
+            className="inputArea"
+            style={{
+              background: "#EAEAEA",
+              height: "50%",
+              display: "flex",
+              borderRadius: "10px",
+            }}
+          >
+            <TextField
+              id="outlined-multiline-static"
+              label="Write a Post"
+              multiline
+              minRows={15}
+              maxRows={15}
+              onChange={handleContent}
               style={{
-                marginLeft: "5%",
-                marginRight: "5%",
+                width: "100%",
+                margin: "1%",
               }}
-            >
-              <Typography variant="h5">Title</Typography>
-              <Typography variant="body1">
-                저는 오늘 점심으로 라면 먹었어요. 저녁은 뭐 먹을까요?
-              </Typography>
-            </Box>
+            />
           </Box>
           <Box
-            className="IconArea"
+            className="header"
             style={{
               display: "flex",
+              padding: "1%",
+              height: "10%",
+              alignItems: "center",
               justifyContent: "right",
             }}
           >
-            <Box className="CommentIconArea">
-              <IconButton>
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton>
-                <CommentIcon />
-              </IconButton>
-              <IconButton>
-                <ShareIcon />
-              </IconButton>
-            </Box>
-          </Box>
-          <Divider variant="middle" />
-          <Box
-            className="CommentArea"
-            style={{
-              margin: "1%",
-              borderRadius: "5px",
-            }}
-          >
-            <Comment />
-            <Comment />
-          </Box>
-          <Box
-            className="CommentInputArea"
-            style={{ padding: "2%", display: "flex", justifyContent: "right" }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Comment"
-              variant="standard"
-              maxRows={3}
+            <Button
+              variant="contained"
+              onClick={clickPosting}
               style={{
-                width: "100%",
+                backgroundColor: "darkorange",
+                color: "white",
               }}
-            />
-            <IconButton>
-              <SendIcon />
-            </IconButton>
+            >
+              Post
+            </Button>
           </Box>
         </Box>
       </Container>
