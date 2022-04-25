@@ -2,9 +2,9 @@ import { ethers } from "ethers";
 import provider from "./provider.js";
 import abi from "./abi.js";
 const privateKey =
-  "cf36b9064c497b8d360b351271a519ce0019371465140346c851285173489cf5";
+  "3c9182c9c893b7320c8d65464e5693c261922d36ab1461c4c562b630b54592cc";
 
-const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
+const CA = "0x25326D3fb0a45469ecaBF9B7F2CEe9C3B49681f3";
 const wallet = new ethers.Wallet(privateKey, provider);
 const erc20 = new ethers.Contract(CA, abi, wallet);
 
@@ -28,13 +28,15 @@ class ServerAccounts {
   async rewardToken(toAddress, amount) {
     try {
       const sendToken = await this.contract.transfer(toAddress, amount);
-      await sendToken.wait();
+      const result = await sendToken.wait();
       const transaction = {
         to: toAddress,
         value: ethers.utils.parseEther("1.0"),
       };
       const sendEther = await this.wallet.sendTransaction(transaction);
-      await sendEther.wait();
+      const result2 = await sendEther.wait();
+      console.log(result);
+      console.log(result2);
       console.log("토큰 및 이더 전송 완료");
     } catch (err) {
       console.log(err);
@@ -43,7 +45,7 @@ class ServerAccounts {
 }
 
 const ServerAccount = new ServerAccounts();
-ServerAccount.balanceOf().then((result) =>
-  console.log(`서버 남은 토큰:${result}`)
-);
+// ServerAccount.balanceOf().then((result) =>
+//   console.log(`서버 남은 토큰:${result}`)
+// );
 export default ServerAccount;

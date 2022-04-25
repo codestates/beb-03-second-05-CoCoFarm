@@ -21,7 +21,7 @@ const reward = async () => {
       );
       await Promise.all(
         posts.map(async (post) => {
-          const amount = post.rewardCount / 5;
+          const amount = parseInt(post.rewardCount / 5);
           const user = await User.findOne({ nickName: post.author });
           await ServerAccount.rewardToken(user.wallet.address, amount);
         })

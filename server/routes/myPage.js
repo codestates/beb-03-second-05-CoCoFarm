@@ -1,6 +1,6 @@
 import express from "express";
-import User from "../model/users.js";
 import { ObjectId } from "mongodb";
+import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
@@ -10,12 +10,12 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const token = req.cookies.jwt;
+
   const data = decodingToken(token);
-
   const nickname = data.nickName;
-
   try {
     const user = await User.findOne({ nickName: nickname });
+
     const client = new ClientAccounts(user.wallet.privateKey);
     let tokenBalance = await client.balanceOf();
     if (tokenBalance === undefined) {
