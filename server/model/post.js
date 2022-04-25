@@ -13,6 +13,7 @@ const postSchema = new Schema({
     },
   ],
   wholiked: [{ type: String }],
+  rewardCount: { type: Number },
 });
 const Post = mongoose.model("Post", postSchema);
 export default Post;
