@@ -15,7 +15,7 @@ import Mypost from "../components/mypost";
 function Mypage({ isLogin, userInfo }) {
   const WarningMessage = "* 비밀번호는 4자리 이상이어야 합니다. *";
   const [nickname, setNickname] = useState(undefined);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(undefined);
   const [email, setEmail] = useState(undefined);
   const [phone, setPhone] = useState(undefined);
   const [myposts, setMyposts] = useState(undefined);
@@ -45,13 +45,23 @@ function Mypage({ isLogin, userInfo }) {
   }
 
   useEffect(() => {
-    if (password.length >= 4) {
+    if (password !== undefined && password.length >= 4) {
       setSignupFlag(true);
     } else {
       setSignupFlag(false);
     }
   }, [nickname, password, email, phone, signupFlag]);
 
+  async function editMyprofile() {
+    let result = await axios.post(
+      `https://localhost:8080/myPage/${userInfo}`,
+      { nickName: nickname, password, email, phoneNumber: phone },
+      { withCredentials: true }
+    );
+    console.log(result.data.message);
+    window.alert(result.data.message);
+    window.location.replace("/mypage");
+  }
   async function getMypost() {
     let result = await axios.get("https://localhost:8080/myPage", {
       withCredentials: true,
@@ -236,6 +246,7 @@ function Mypage({ isLogin, userInfo }) {
                 <br />
                 <Button
                   variant="outlined"
+                  onClick={editMyprofile}
                   style={{
                     border: "orange",
                     color: "orange",

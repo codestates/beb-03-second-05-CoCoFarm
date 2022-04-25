@@ -100,7 +100,10 @@ function App() {
               <Main postings={postings} isLogin={isLogin} userInfo={userInfo} />
             }
           ></Route>
-          <Route path="/signin" element={<Signin />}></Route>
+          <Route
+            path="/signin"
+            element={<Signin userinfoSetting={userinfoSetting} />}
+          ></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route
             path="/posting"

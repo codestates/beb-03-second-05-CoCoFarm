@@ -5,6 +5,7 @@ import { hashedPassword } from "../auth/password.js";
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
 import ClientAccounts from "../contract/ClientAccounts.js";
+import { createToken } from "../auth/jwt.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -15,8 +16,6 @@ router.get("/", async (req, res) => {
 
   try {
     const user = await User.findOne({ nickName: nickname });
-    // console.log(user);
-    // 토큰 잔액 추가해줘야함.
     const client = new ClientAccounts(user.wallet.privateKey);
     let tokenBalance = await client.balanceOf();
     if (tokenBalance === undefined) {
@@ -41,16 +40,20 @@ router.post("/:nickName", async (req, res) => {
   try {
     const token = req.cookies.jwt;
     const data = decodingToken(token);
-    const nickName = data.nickName;
+    const { nickName } = data;
     const userSchema = req.body;
     if (userSchema.password !== undefined) {
-      userSchema.password = hashedPassword(userSchema.password);
+      userSchema.password = await hashedPassword(userSchema.password);
     }
     const user1 = await User.findOneAndUpdate({ nickName }, userSchema, {
       new: true,
     });
     console.log(user1);
-    res.status(200).send({ message: "회원정보 수정이 완료 되었습니다." });
+    const newToken = createToken(user1);
+    res
+      .status(200)
+      .cookie("jwt", newToken)
+      .send({ message: "회원정보 수정이 완료 되었습니다." });
   } catch (err) {
     console.log(err);
     res.status(400).send({ message: "회원정보 수정에 실패했습니다." });
