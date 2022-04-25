@@ -24,8 +24,6 @@ router.get("/", async (req, res) => {
       })
     );
 
-    console.log(mapPosts);
-
     res.send({ nickName, email, avartar, posts: mapPosts });
   } catch (err) {
     console.log(err);

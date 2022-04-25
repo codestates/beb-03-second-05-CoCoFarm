@@ -1,10 +1,9 @@
 import express from "express";
-import { promises as fs } from "fs";
 
 import { createToken } from "../auth/jwt.js";
 import User from "../model/users.js";
 import { hashedPassword } from "../auth/password.js";
-import newWallet from "../wallet/newWallet.js";
+import createWallet from "../contract/createWallet.js";
 
 const router = express.Router();
 
@@ -19,19 +18,8 @@ router.post("/", async (req, res) => {
         .send({ success: false, message: "You are already signed up" });
     } else {
       // 개인키,주소 생성해서 wallet.json 파일 생성
-      await newWallet(password);
-      let wallet;
-      const data = await fs.readFile("./wallet.json", "utf8");
-      wallet = JSON.parse(data);
-
-      // 읽었으면 파일 삭제
-      fs.unlink("./wallet.json", (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("삭제완료");
-        }
-      });
+      const wallet = await createWallet();
+      console.log(wallet);
       const userSchema = {
         nickName,
         password: await hashedPassword(password),
