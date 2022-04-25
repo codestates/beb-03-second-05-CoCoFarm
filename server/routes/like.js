@@ -16,7 +16,10 @@ router.post("/", async (req, res) => {
   try {
     const post = await Post.findOne({ _id: ObjectId(p_id) });
     const wholiked = post.wholiked;
-    const { rewardCount } = post;
+    let { rewardCount } = post;
+    if (rewardCount === undefined) {
+      rewardCount = 0;
+    }
     const existNickName = wholiked.indexOf(nickName);
     if (existNickName == -1) {
       wholiked.push(nickName);

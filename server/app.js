@@ -39,7 +39,8 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 
-reward();
+setInterval(reward, 300000);
+
 // 로그인 시 라우터
 app.use("/tokenAuth", tokenAuthRouter);
 app.use("/login", loginRouter);
