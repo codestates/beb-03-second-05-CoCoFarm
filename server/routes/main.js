@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
   // p_id, nickName, title, content, timestamp, commentsCount, likeCount, like
 
   // 로그인 여부에 따라 like 포함 달라짐
-
   const data = decodingToken(req.cookies.jwt);
 
   // 모든 게시물 다 가져오기
@@ -19,7 +18,6 @@ router.get("/", async (req, res) => {
 
   try {
     const allPosts = await Post.find(); // 배열로 post 다 불러옴
-
     const setData = allPosts.map((post) => {
       return {
         p_id: post.id,

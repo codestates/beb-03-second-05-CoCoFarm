@@ -1,6 +1,7 @@
 import Post from "../components/post";
 import { Container, Box } from "@material-ui/core";
 function Main({ postings }) {
+  console.log(postings);
   return (
     <div className="Main">
       <Container
