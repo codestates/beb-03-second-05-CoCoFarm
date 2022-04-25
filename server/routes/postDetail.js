@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
       title: post.title,
       content: post.content,
       comments: post.comments,
-      timestamp: ObjectId(p_id).getTimestamp(),
+      timestamp: ObjectId(p_id).getTimestamp() + 9,
       commentsCount: post.comments.length,
       likeCount: post.wholiked.length,
       like: post.wholiked.includes(data.nickName),
