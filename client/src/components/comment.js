@@ -4,6 +4,8 @@ import axios from "axios";
 function Comment({ item, userInfo, p_id }) {
   // 댓글 삭제 함수
   async function DeleteComment() {
+    console.log("c_id :", item._id);
+    console.log("p_id :", p_id);
     let result = await axios.delete(
       "https://localhost:8080/comments",
       {
@@ -45,7 +47,7 @@ function Comment({ item, userInfo, p_id }) {
         </Avatar>
         <Typography variant="body1">{item.author}</Typography>
         {item.author === userInfo ? (
-          <IconButton size="small">
+          <IconButton size="small" onClick={DeleteComment}>
             <DeleteIcon
               style={{
                 fontSize: "1.2rem",
