@@ -10,12 +10,12 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const token = req.cookies.jwt;
   const data = decodingToken(token);
-  console.log(data);
+
   const nickname = data.nickName;
-  console.log(nickname);
+
   try {
     const user = await User.findOne({ nickName: nickname });
-    console.log(user);
+    // console.log(user);
     // 토큰 잔액 추가해줘야함.
     const client = new ClientAccounts(user.wallet.privateKey);
     let tokenBalance = await client.balanceOf();

@@ -27,9 +27,15 @@ class ServerAccounts {
   // 보상으로 토큰 전달
   async rewardToken(toAddress, amount) {
     try {
-      const tx = await this.contract.transfer(toAddress, amount);
-      const result = await tx.wait();
-      console.log(result);
+      const sendToken = await this.contract.transfer(toAddress, amount);
+      await sendToken.wait();
+      const transaction = {
+        to: toAddress,
+        value: ethers.utils.parseEther(1),
+      };
+      const sendEther = await this.wallet.sendTransaction(transaction);
+      await sendEther.wait();
+      console.log("토큰 및 이더 전송 완료");
     } catch (err) {
       console.log(err);
     }
@@ -37,5 +43,5 @@ class ServerAccounts {
 }
 
 const ServerAccount = new ServerAccounts();
-ServerAccount.balanceOf();
+console.log(`서버 남은 토큰:${ServerAccount.balanceOf()}`);
 export default ServerAccount;

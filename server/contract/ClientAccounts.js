@@ -27,7 +27,7 @@ class ClientAccounts {
     try {
       const tx = await this.contract.transfer(toAddress, amount);
       const result = await tx.wait();
-      console.log(result);
+      return result;
     } catch (err) {
       console.log(err);
     }
