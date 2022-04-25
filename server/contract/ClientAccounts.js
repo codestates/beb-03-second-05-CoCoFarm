@@ -3,7 +3,7 @@ import abi from "./abi.js";
 
 import provider from "./provider.js";
 
-const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
+const CA = "0x25326D3fb0a45469ecaBF9B7F2CEe9C3B49681f3";
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);
@@ -25,7 +25,8 @@ class ClientAccounts {
   //이더 후원하기
   async support(toAddress, amount) {
     try {
-      const tx = await this.contract.transfer(toAddress, amount);
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const tx = await contract.transfer(toAddress, amount);
       const result = await tx.wait();
       return result;
     } catch (err) {
