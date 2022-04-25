@@ -46,7 +46,7 @@ function Posting({ userInfo, isLogin }) {
       { withCredentials: true }
     );
     window.alert(result.data.message);
-    navigate("/");
+    window.location.replace("/");
   }
   return (
     <div className="Posting">

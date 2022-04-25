@@ -4,7 +4,7 @@ import {
   Avatar,
   Typography,
   Divider,
-  Chip,
+  Button,
 } from "@material-ui/core";
 
 import axios from "axios";
@@ -13,6 +13,17 @@ import Mypost from "../components/mypost";
 
 function Mypage({ isLogin, userInfo }) {
   const [myposts, setMyposts] = useState(undefined);
+  const [isPosttab, setIsPosttab] = useState(true);
+  const [isEdittab, setIsEdittab] = useState(true);
+
+  function posttabHandler() {
+    setIsPosttab(true);
+    setIsEdittab(false);
+  }
+  function edittabHandler() {
+    setIsPosttab(false);
+    setIsEdittab(true);
+  }
 
   async function getMypost() {
     let result = await axios.get("https://localhost:8080/myPage", {
@@ -92,14 +103,34 @@ function Mypage({ isLogin, userInfo }) {
               </Typography>
             </Box>
           </Box>
-          <Chip
-            label="YOUR POSTINGS"
+          <Box
+            className="tabs"
             style={{
-              width: "9rem",
-              margin: "1rem",
-              alignSelf: "center",
+              display: "flex",
+              justifyContent: "center",
             }}
-          />
+          >
+            <Button
+              onClick={posttabHandler}
+              style={{
+                width: "9rem",
+                margin: "1rem",
+                alignSelf: "center",
+              }}
+            >
+              YOUR POSTINGS
+            </Button>
+            <Button
+              onClick={edittabHandler}
+              style={{
+                width: "9rem",
+                margin: "1rem",
+                alignSelf: "center",
+              }}
+            >
+              EDIT PROFILE
+            </Button>
+          </Box>
 
           <Divider variant="middle" />
 

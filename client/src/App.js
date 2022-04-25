@@ -93,7 +93,13 @@ function App() {
           getPostings={getPostings}
         />
         <Routes>
-          <Route exact path="/" element={<Main postings={postings} />}></Route>
+          <Route
+            exact
+            path="/"
+            element={
+              <Main postings={postings} isLogin={isLogin} userInfo={userInfo} />
+            }
+          ></Route>
           <Route path="/signin" element={<Signin />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route

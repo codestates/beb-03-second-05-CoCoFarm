@@ -1,7 +1,7 @@
 import Post from "../components/post";
 import { Container, Box } from "@material-ui/core";
-function Main({ postings }) {
-  console.log(postings);
+function Main({ postings, isLogin, userInfo }) {
+  let LoginInfo = isLogin;
   return (
     <div className="Main">
       <Container
@@ -17,7 +17,7 @@ function Main({ postings }) {
                   padding: "1%",
                 }}
               >
-                <Post item={item} />
+                <Post item={item} isLogin={LoginInfo} userInfo={userInfo} />
               </Box>
             );
           })}

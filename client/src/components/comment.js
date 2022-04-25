@@ -1,5 +1,22 @@
-import { Box, Typography, Avatar } from "@material-ui/core";
-function Comment() {
+import { Box, Typography, Avatar, IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import axios from "axios";
+function Comment({ item, userInfo, p_id }) {
+  // 댓글 삭제 함수
+  async function DeleteComment() {
+    let result = await axios.delete(
+      "https://localhost:8080/comments",
+      {
+        c_id: item._id,
+        p_id: p_id,
+      },
+      {
+        withCredential: true,
+      }
+    );
+    window.alert(result.data.message);
+    window.location.replace("/");
+  }
   return (
     <Box
       className="Comment"
@@ -24,9 +41,18 @@ function Comment() {
             height: "2rem",
           }}
         >
-          G
+          {item.author[0] || "U"}
         </Avatar>
-        <Typography variant="body1">Guest1</Typography>
+        <Typography variant="body1">{item.author}</Typography>
+        {item.author === userInfo ? (
+          <IconButton size="small">
+            <DeleteIcon
+              style={{
+                fontSize: "1.2rem",
+              }}
+            />
+          </IconButton>
+        ) : null}
       </Box>
       <Box
         className="Commentcontent"
@@ -34,7 +60,7 @@ function Comment() {
           marginLeft: "5%",
         }}
       >
-        초밥이요!
+        {item.comment}
       </Box>
     </Box>
   );
