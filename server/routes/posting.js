@@ -17,15 +17,17 @@ router.post("/", async (req, res) => {
   const email = data.email;
   const { title, content } = req.body;
 
-  const postSchema = {
-    author,
-    title,
-    content,
-    comments: [],
-  };
-  console.log(postSchema);
   // 게시물 작성한거를 유저의 posts에도 추가
   try {
+    let authorId = await User.findOne({ nickName: author });
+    authorId = authorId.id;
+    const postSchema = {
+      author,
+      authorId,
+      title,
+      content,
+      comments: [],
+    };
     await Post.create(postSchema);
     const newPostId = await Post.findOne(postSchema);
     const userPosts = await User.findOne({ email: email });
