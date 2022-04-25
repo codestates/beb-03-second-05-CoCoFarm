@@ -28,14 +28,15 @@ router.get("/", async (req, res) => {
         content: post.content,
         comments: post.comments,
         timestamp: ObjectId(post.id).getTimestamp(),
-        commentsCount: post.comments.length,
-        likeCount: post.wholiked.length,
-        like: post.wholiked.includes(data.nickName),
+        commentsCount: post.comments ? post.comments.length : 0,
+        likeCount: post.wholiked ? post.wholiked.length : 0,
+        like: post.wholiked ? post.wholiked.includes(data.nickName) : false,
       };
     });
 
     res.status(200).send({ posts: setData });
   } catch (err) {
+    console.log(err);
     res.status(400).send({ message: "게시물을 불러오는데 실패했습니다." });
   }
 });
