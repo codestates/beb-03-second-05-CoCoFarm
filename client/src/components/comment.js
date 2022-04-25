@@ -7,11 +7,7 @@ function Comment({ item, userInfo, p_id }) {
     console.log("c_id :", item._id);
     console.log("p_id :", p_id);
     let result = await axios.delete(
-      "https://localhost:8080/comments",
-      {
-        c_id: item._id,
-        p_id: p_id,
-      },
+      `https://localhost:8080/comments?p_id=${p_id}&c_id=${item._id}`,
       {
         withCredential: true,
       }
