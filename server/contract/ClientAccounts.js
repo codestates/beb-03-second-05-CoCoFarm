@@ -2,8 +2,9 @@ import { ethers } from "ethers";
 import abi from "./abi.js";
 
 import provider from "./provider.js";
+import { config } from "../config.js";
 
-const CA = "0x25326D3fb0a45469ecaBF9B7F2CEe9C3B49681f3";
+const CA = config.CA;
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);
