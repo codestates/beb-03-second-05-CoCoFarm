@@ -12,7 +12,7 @@ const postSchema = new Schema({
       comment: { type: String, required: true },
     },
   ],
-  wholiked: [{ nickName: { type: String } }],
+  wholiked: [{ type: String }],
 });
 const Post = mongoose.model("Post", postSchema);
 export default Post;

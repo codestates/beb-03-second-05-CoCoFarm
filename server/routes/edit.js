@@ -1,4 +1,5 @@
 import express from "express";
+import { ObjectId } from "mongodb";
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
 
@@ -20,7 +21,7 @@ router.put("/", async (req, res) => {
   };
 
   try {
-    await Post.updateOne({ _id: p_id }, postSchema);
+    await Post.updateOne({ _id: ObjectId(p_id) }, postSchema);
     res.status(200).send({ message: "게시물이 수정되었습니다." });
   } catch (err) {
     console.log(err);

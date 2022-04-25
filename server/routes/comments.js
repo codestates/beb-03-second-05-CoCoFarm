@@ -17,7 +17,19 @@ router.post("/", async (req, res) => {
   const author = data.nickName;
   const { p_id, comment } = req.body;
 
-  const post = await Post.findOne({ id: ObjectId(p_id) });
+  try {
+    const newComment = { author, comment };
+    const post = await Post.findOne({ _id: ObjectId(p_id) });
+
+    await Post.updateOne(
+      { _id: ObjectId(p_id) },
+      { comments: [...post.comments, newComment] }
+    );
+    res.status(200).send({ message: "댓글이 등록되었습니다." });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: "댓글 등록에 실패했습니다." });
+  }
 });
 
 export default router;
