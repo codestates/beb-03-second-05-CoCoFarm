@@ -43,7 +43,7 @@ function Postedit({ userInfo }) {
       { withCredentials: true }
     );
     window.alert(result.data.message);
-    window.location.replace("/");
+    window.location.replace("/mypage");
   }
   return (
     <div className="Postedit">

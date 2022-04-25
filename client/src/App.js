@@ -106,7 +106,10 @@ function App() {
             path="/posting"
             element={<Posting isLogin={isLogin} userInfo={userInfo} />}
           ></Route>
-          <Route path="/postdetail/:index" element={<Postdetail />}></Route>
+          <Route
+            path="/postdetail/:index"
+            element={<Postdetail userInfo={userInfo} isLogin={isLogin} />}
+          ></Route>
           <Route
             path="/postedit/:index"
             element={<Postedit userInfo={userInfo} />}

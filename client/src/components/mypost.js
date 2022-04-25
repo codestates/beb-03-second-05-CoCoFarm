@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -12,6 +13,7 @@ import {
   TextField,
   Box,
 } from "@material-ui/core";
+import axios from "axios";
 import { styled } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -32,8 +34,29 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Mypost({ item }) {
-  const [expanded, setExpanded] = React.useState(false);
+export default function Mypost({ item, userInfo }) {
+  console.log(item);
+  const [expanded, setExpanded] = useState(false);
+  const [comment, setComment] = useState(undefined);
+
+  const handleComment = (e) => {
+    setComment(e.target.value);
+  };
+
+  useEffect(() => {
+    console.log("Current comment : ", comment);
+  }, [comment]);
+  // 코멘트 다는 함수
+  async function makeComment() {
+    let result = await axios.post(
+      "https://localhost:8080/comments",
+      { p_id: item.p_id, comment: comment },
+      { withCredentials: true }
+    );
+    window.alert(result.data.message);
+    window.location.replace("/");
+  }
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -88,29 +111,18 @@ export default function Mypost({ item }) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Comment />
-            <Comment />
-            <Box
-              className="CommentInputArea"
-              style={{
-                padding: "2%",
-                display: "flex",
-                justifyContent: "right",
-              }}
-            >
-              <TextField
-                id="commentLine"
-                label="Comment"
-                variant="standard"
-                maxRows={3}
-                style={{
-                  width: "100%",
-                }}
-              />
-              <IconButton>
-                <SendIcon />
-              </IconButton>
-            </Box>
+            {item.comments &&
+              item.comments.map((elem) => {
+                return (
+                  <Box
+                    style={{
+                      padding: "1%",
+                    }}
+                  >
+                    <Comment item={elem} userInfo={userInfo} p_id={elem.p_id} />
+                  </Box>
+                );
+              })}
           </CardContent>
         </Collapse>
       </Card>
