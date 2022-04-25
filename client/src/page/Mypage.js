@@ -5,6 +5,7 @@ import {
   Typography,
   Divider,
   Button,
+  TextField,
 } from "@material-ui/core";
 
 import axios from "axios";
@@ -12,10 +13,28 @@ import { useState, useEffect } from "react";
 import Mypost from "../components/mypost";
 
 function Mypage({ isLogin, userInfo }) {
+  const WarningMessage = "* 비밀번호는 4자리 이상이어야 합니다. *";
+  const [nickname, setNickname] = useState(undefined);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(undefined);
+  const [phone, setPhone] = useState(undefined);
   const [myposts, setMyposts] = useState(undefined);
   const [isPosttab, setIsPosttab] = useState(true);
-  const [isEdittab, setIsEdittab] = useState(true);
+  const [isEdittab, setIsEdittab] = useState(false);
+  const [signupFlag, setSignupFlag] = useState(false);
 
+  function nicknameHandler(e) {
+    setNickname(e.target.value);
+  }
+  function passwordHandler(e) {
+    setPassword(e.target.value);
+  }
+  function emailHandler(e) {
+    setEmail(e.target.value);
+  }
+  function phoneHandler(e) {
+    setPhone(e.target.value);
+  }
   function posttabHandler() {
     setIsPosttab(true);
     setIsEdittab(false);
@@ -24,6 +43,14 @@ function Mypage({ isLogin, userInfo }) {
     setIsPosttab(false);
     setIsEdittab(true);
   }
+
+  useEffect(() => {
+    if (password.length >= 4) {
+      setSignupFlag(true);
+    } else {
+      setSignupFlag(false);
+    }
+  }, [nickname, password, email, phone, signupFlag]);
 
   async function getMypost() {
     let result = await axios.get("https://localhost:8080/myPage", {
@@ -56,7 +83,6 @@ function Mypage({ isLogin, userInfo }) {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            flexWrap: "wrap",
           }}
         >
           <Box
@@ -140,10 +166,11 @@ function Mypage({ isLogin, userInfo }) {
               display: "flex",
               margin: "1rem",
               flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
             {/* 나의 게시물 렌더링 */}
-            {isLogin
+            {isLogin === true && isPosttab === true
               ? myposts &&
                 myposts.map((item) => {
                   return (
@@ -153,11 +180,71 @@ function Mypage({ isLogin, userInfo }) {
                         width: "100%",
                       }}
                     >
-                      <Mypost item={item} />
+                      <Mypost item={item} userInfo={userInfo} />
                     </Box>
                   );
                 })
               : null}
+            {/* 프로필 에디트 탭 랜더링 */}
+            {isLogin === true && isEdittab === true ? (
+              <Box
+                style={{
+                  alignSelf: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {/* nickName: nickname,
+            password,
+            email,
+            phoneNumber: phone, */}
+
+                <TextField
+                  id="nicknameInput"
+                  label="NICKNAME"
+                  variant="standard"
+                  onChange={nicknameHandler}
+                />
+                <TextField
+                  id="passwordInput"
+                  label="PASSWORD"
+                  type="password"
+                  autoComplete="current-password"
+                  variant="standard"
+                  onChange={passwordHandler}
+                />
+                <Typography
+                  varaiant="body2"
+                  style={{
+                    color: "darkorange",
+                  }}
+                >
+                  {signupFlag ? "" : WarningMessage}
+                </Typography>
+                <TextField
+                  id="emailInput"
+                  label="E-MAIL"
+                  variant="standard"
+                  onChange={emailHandler}
+                />
+                <TextField
+                  id="phoneInput"
+                  label="PHONE"
+                  variant="standard"
+                  onChange={phoneHandler}
+                />
+                <br />
+                <Button
+                  variant="outlined"
+                  style={{
+                    border: "orange",
+                    color: "orange",
+                  }}
+                >
+                  Edit
+                </Button>
+              </Box>
+            ) : null}
           </Box>
         </Box>
       </Container>

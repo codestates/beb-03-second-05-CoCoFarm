@@ -6,24 +6,27 @@ import {
   IconButton,
   Divider,
   TextField,
-  Button,
 } from "@material-ui/core";
 import CommentIcon from "@material-ui/icons/Comment";
-import ShareIcon from "@material-ui/icons/Share";
 import SendIcon from "@material-ui/icons/Send";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Comment from "../components/comment";
+import { pink } from "@material-ui/core/colors";
+
 import axios from "axios";
 
-function Postdetail() {
+function Postdetail({ userInfo, isLogin }) {
   const location = useLocation();
   const path = location.pathname.split("/");
 
   const p_id = path[path.length - 1];
   const [curPost, setCurPost] = useState(null);
+  const [comment, setComment] = useState(undefined);
+  const [isLiked, setIsLiked] = useState(false);
+  const likeColor = isLiked ? pink[200] : "inherit";
 
   async function getOnePost(postId) {
     let result = await axios.get(
@@ -32,18 +35,71 @@ function Postdetail() {
         withCredentials: true,
       }
     );
-    // console.log(result.data);
+    console.log("curPost : ", result.data);
     return result.data;
   }
   useEffect(() => {
     getOnePost(p_id).then(setCurPost);
-    // console.log(curPost);
   }, []);
 
   useEffect(() => {
     console.log(curPost);
+    if (curPost && curPost.post.like === true) {
+      setIsLiked(true);
+    }
   }, [curPost]);
+  useEffect(() => {
+    console.log("Current comment : ", comment);
+  }, [comment]);
+  const handleComment = (e) => {
+    setComment(e.target.value);
+  };
+  // 코멘트 다는 함수
+  async function makeComment() {
+    if (isLogin === true) {
+      // 로그인 되어있을때만 동작
+      let result = await axios.post(
+        "https://localhost:8080/comments",
+        { p_id: p_id, comment: comment },
+        { withCredentials: true }
+      );
+      window.alert(result.data.message);
+      window.location.replace(`/postdetail/${p_id}`);
+    } else {
+      window.alert("먼저 로그인 해주세요.");
+    }
+  }
+  async function makeLike() {
+    if (isLogin === true) {
+      // 로그인 되어있을 때만 동작
+      if (isLiked === false && curPost.post.like === false) {
+        setIsLiked(true);
+        let result = await axios.post(
+          "https://localhost:8080/like",
+          {
+            p_id: p_id,
+          },
+          { withCredentials: true }
+        );
 
+        window.alert(result.data.message);
+        window.location.replace(`/postdetail/${p_id}`);
+      } else {
+        setIsLiked(false);
+        let result = await axios.post(
+          "https://localhost:8080/like",
+          {
+            p_id: p_id,
+          },
+          { withCredentials: true }
+        );
+        window.alert(result.data.message);
+        window.location.replace(`/postdetail/${p_id}`);
+      }
+    } else {
+      window.alert("먼저 로그인 해주세요.");
+    }
+  }
   return (
     <div className="Postdetail">
       <Container
@@ -116,16 +172,29 @@ function Postdetail() {
               justifyContent: "right",
             }}
           >
-            <Box className="CommentIconArea">
-              <IconButton>
-                <FavoriteIcon />
+            <Box
+              className="CommentIconArea"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <IconButton onClick={makeLike}>
+                <FavoriteIcon
+                  style={{
+                    color: likeColor,
+                  }}
+                />
               </IconButton>
+              <Typography variant="body2" color="inherit">
+                {curPost ? curPost.post.likeCount : null}
+              </Typography>
               <IconButton>
                 <CommentIcon />
               </IconButton>
-              <IconButton>
-                <ShareIcon />
-              </IconButton>
+              <Typography variant="body2" color="inherit">
+                {curPost ? curPost.post.commentsCount : null}
+              </Typography>
             </Box>
           </Box>
           <Divider variant="middle" />
@@ -136,8 +205,18 @@ function Postdetail() {
               borderRadius: "5px",
             }}
           >
-            <Comment />
-            <Comment />
+            {curPost &&
+              curPost.post.comments.map((elem) => {
+                return (
+                  <Box
+                    style={{
+                      padding: "1%",
+                    }}
+                  >
+                    <Comment item={elem} userInfo={userInfo} p_id={p_id} />
+                  </Box>
+                );
+              })}
           </Box>
           <Box
             className="CommentInputArea"
@@ -147,12 +226,13 @@ function Postdetail() {
               id="outlined-basic"
               label="Comment"
               variant="standard"
+              onChange={handleComment}
               maxRows={3}
               style={{
                 width: "100%",
               }}
             />
-            <IconButton>
+            <IconButton onClick={makeComment}>
               <SendIcon />
             </IconButton>
           </Box>
