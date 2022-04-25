@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -12,6 +13,7 @@ import {
   TextField,
   Box,
 } from "@material-ui/core";
+import { pink } from "@material-ui/core/colors";
 import { styled } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -19,6 +21,7 @@ import CommentIcon from "@material-ui/icons/Comment";
 import SendIcon from "@material-ui/icons/Send";
 
 import Comment from "../components/comment";
+import axios from "axios";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,11 +33,71 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Post({ item }) {
-  const [expanded, setExpanded] = React.useState(false);
+export default function Post({ item, isLogin, userInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  const [comment, setComment] = useState(undefined);
+  const [isLiked, setIsLiked] = useState(false);
+  const likeColor = isLiked ? pink[200] : "inherit";
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const handleComment = (e) => {
+    setComment(e.target.value);
+  };
+
+  useEffect(() => {
+    console.log("Current comment : ", comment);
+  }, [comment]);
+  useEffect(() => {
+    if (item.like === true) {
+      setIsLiked(true);
+    }
+  }, []);
+  // 코멘트 다는 함수
+  async function makeComment() {
+    if (isLogin === true) {
+      // 로그인 되어있을때만 동작
+      let result = await axios.post(
+        "https://localhost:8080/comments",
+        { p_id: item.p_id, comment: comment },
+        { withCredentials: true }
+      );
+      window.alert(result.data.message);
+      window.location.replace("/");
+    } else {
+      window.alert("먼저 로그인 해주세요.");
+    }
+  }
+  async function makeLike() {
+    if (isLogin === true) {
+      // 로그인 되어있을 때만 동작
+      if (isLiked === false) {
+        setIsLiked(true);
+        let result = await axios.post(
+          "https://localhost:8080/like",
+          {
+            p_id: item.p_id,
+          },
+          { withCredentials: true }
+        );
+        window.alert(result.data.message);
+        window.location.replace("/");
+      } else {
+        setIsLiked(false);
+        let result = await axios.post(
+          "https://localhost:8080/like",
+          {
+            p_id: item.p_id,
+          },
+          { withCredentials: true }
+        );
+        window.alert(result.data.message);
+        window.location.replace("/");
+      }
+    } else {
+      window.alert("먼저 로그인 해주세요.");
+    }
+  }
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -42,7 +105,7 @@ export default function Post({ item }) {
           <Avatar
             aria-label="profile"
             style={{
-              background: "#" + (((1 << 24) * Math.random()) | 0).toString(16),
+              background: "#FF9436",
             }}
           >
             {item.nickName[0] || "U"}
@@ -75,9 +138,16 @@ export default function Post({ item }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={makeLike}>
+          <FavoriteIcon
+            style={{
+              color: likeColor,
+            }}
+          />
         </IconButton>
+        <Typography variant="body2" color="inherit">
+          {`${item.likeCount}`}
+        </Typography>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -86,11 +156,24 @@ export default function Post({ item }) {
         >
           <CommentIcon />
         </ExpandMore>
+        <Typography variant="body2" color="inherit">
+          {`${item.commentsCount}`}
+        </Typography>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Comment />
-          <Comment />
+          {item.comments &&
+            item.comments.map((elem) => {
+              return (
+                <Box
+                  style={{
+                    padding: "1%",
+                  }}
+                >
+                  <Comment item={elem} userInfo={userInfo} p_id={item.p_id} />
+                </Box>
+              );
+            })}
           <Box
             className="CommentInputArea"
             style={{ padding: "2%", display: "flex", justifyContent: "right" }}
@@ -100,11 +183,12 @@ export default function Post({ item }) {
               label="Comment"
               variant="standard"
               maxRows={3}
+              onChange={handleComment}
               style={{
                 width: "100%",
               }}
             />
-            <IconButton>
+            <IconButton onClick={makeComment}>
               <SendIcon />
             </IconButton>
           </Box>
