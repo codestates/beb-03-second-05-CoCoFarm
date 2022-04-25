@@ -38,7 +38,16 @@ export default function Post({ item }) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
-        avatar={<Avatar aria-label="profile">R</Avatar>}
+        avatar={
+          <Avatar
+            aria-label="profile"
+            style={{
+              background: "#" + (((1 << 24) * Math.random()) | 0).toString(16),
+            }}
+          >
+            {item.nickName[0] || "U"}
+          </Avatar>
+        }
         action={
           <IconButton
             aria-label="detailview"
@@ -48,8 +57,8 @@ export default function Post({ item }) {
             <VisibilityIcon />
           </IconButton>
         }
-        title={`${item.nickName}`}
-        subheader={`${item.timestamp}`}
+        title={`${item.nickName || item.author}`}
+        subheader={`${item.timestamp || ""}`}
       />
       {/* <CardMedia
         component="img"
