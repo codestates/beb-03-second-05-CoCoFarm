@@ -20,6 +20,7 @@ import myPageRouter from "./routes/myPage.js";
 import postDetail from "./routes/postDetail.js";
 import commentsRouter from "./routes/comments.js";
 import likeRouter from "./routes/like.js";
+import reward from "./contract/reward.js";
 
 // import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 
+reward();
 // 로그인 시 라우터
 app.use("/tokenAuth", tokenAuthRouter);
 app.use("/login", loginRouter);

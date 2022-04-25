@@ -1,19 +1,31 @@
 import { ethers } from "ethers";
-import abi from "../contract/abi.js";
+import abi from "./abi.js";
 
 import provider from "./provider.js";
 
-const CA = "0x33241e39f8d9f3a21De5681E6A327745E22f4C5F";
+const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);
-    this.contract = new ethers.Contract(CA, abi, this.wallet);
   }
 
-  //이더 후원하기
-  async support(to, amount) {
+  // 현재 고객이 보유하고 있는 토큰 확인
+  async balanceOf() {
     try {
-      const tx = await this.contract.transferFrom(this.wallet, to, amount);
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const amount = await contract.balanceOf(this.wallet.address);
+      const number = await amount.toNumber();
+
+      console.log(number);
+      return number;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //이더 후원하기
+  async support(toAddress, amount) {
+    try {
+      const tx = await this.contract.transfer(toAddress, amount);
       const result = await tx.wait();
       console.log(result);
     } catch (err) {
@@ -23,6 +35,5 @@ class ClientAccounts {
 }
 
 // 실험중
-const client = new ClientAccounts("0xb01475c503081e491518ECA4faB9b89bFb3f0813");
-console.log(client.support("0x402E14c316fB674c979F6F828901f971Cb05FA9a", 1));
+
 export default ClientAccounts;

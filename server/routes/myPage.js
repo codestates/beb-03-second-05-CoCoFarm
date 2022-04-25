@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 import { hashedPassword } from "../auth/password.js";
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
+import ClientAccounts from "../contract/ClientAccounts.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -16,6 +17,11 @@ router.get("/", async (req, res) => {
     const user = await User.findOne({ nickName: nickname });
     console.log(user);
     // 토큰 잔액 추가해줘야함.
+    const client = new ClientAccounts(user.wallet.privateKey);
+    let tokenBalance = await client.balanceOf();
+    if (tokenBalance === undefined) {
+      tokenBalance = 0;
+    }
     const { nickName, email, avartar, posts } = user;
 
     const mapPosts = await Promise.all(
@@ -24,7 +30,7 @@ router.get("/", async (req, res) => {
       })
     );
 
-    res.send({ nickName, email, avartar, posts: mapPosts });
+    res.send({ nickName, email, avartar, posts: mapPosts, tokenBalance });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "서버에서 읽을수가 없습니다." });

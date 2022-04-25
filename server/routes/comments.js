@@ -20,10 +20,10 @@ router.post("/", async (req, res) => {
   try {
     const newComment = { author, comment };
     const post = await Post.findOne({ _id: ObjectId(p_id) });
-
+    const { rewardCount } = post;
     await Post.updateOne(
       { _id: ObjectId(p_id) },
-      { comments: [...post.comments, newComment] }
+      { comments: [...post.comments, newComment], rewardCount: rewardCount + 1 }
     );
     res.status(200).send({ message: "댓글이 등록되었습니다." });
   } catch (err) {

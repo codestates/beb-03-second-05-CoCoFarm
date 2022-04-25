@@ -16,15 +16,21 @@ router.post("/", async (req, res) => {
   try {
     const post = await Post.findOne({ _id: ObjectId(p_id) });
     const wholiked = post.wholiked;
-
+    const { rewardCount } = post;
     const existNickName = wholiked.indexOf(nickName);
     if (existNickName == -1) {
       wholiked.push(nickName);
-      await Post.updateOne({ _id: ObjectId(p_id) }, { wholiked: wholiked });
+      await Post.updateOne(
+        { _id: ObjectId(p_id) },
+        { wholiked: wholiked, rewardCount: rewardCount + 1 }
+      );
       res.status(200).send({ message: "좋아요를 눌렀습니다." });
     } else {
       wholiked.splice(existNickName, 1);
-      await Post.updateOne({ _id: ObjectId(p_id) }, { wholiked: wholiked });
+      await Post.updateOne(
+        { _id: ObjectId(p_id) },
+        { wholiked: wholiked, rewardCount: rewardCount - 1 }
+      );
       res.status(200).send({ message: "좋아요를 취소했습니다" });
     }
   } catch (err) {

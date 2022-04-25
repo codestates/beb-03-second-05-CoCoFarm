@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
 import provider from "./provider.js";
-import abi from "../contract/abi.js";
+import abi from "./abi.js";
 const privateKey =
   "cf36b9064c497b8d360b351271a519ce0019371465140346c851285173489cf5";
 
-const CA = "0xf64b6819819Ac48c3CAA2517941b5653FD8dc8c7";
+const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
 const wallet = new ethers.Wallet(privateKey, provider);
 const erc20 = new ethers.Contract(CA, abi, wallet);
 
@@ -13,13 +13,12 @@ class ServerAccounts {
     this.wallet = wallet;
     this.contract = erc20;
   }
-
-  async totalSupply() {
+  // 현재 서버가 가지고 있는 토큰 확인
+  async balanceOf() {
     try {
-      const total = await this.contract.totalSupply();
-      const number = await total.toNumber();
+      const amount = await this.contract.balanceOf(this.wallet.address);
+      const number = await amount.toNumber();
       console.log(number);
-      return number;
     } catch (err) {
       console.log(err);
     }
@@ -37,10 +36,6 @@ class ServerAccounts {
   }
 }
 
-// 실험중
-
-const Server = new ServerAccounts();
-
-Server.rewardToken("0x26Ece52EbB747c589F2a89B45b3De09468780914", 100);
-Server.totalSupply();
-export default Server;
+const ServerAccount = new ServerAccounts();
+ServerAccount.balanceOf();
+export default ServerAccount;

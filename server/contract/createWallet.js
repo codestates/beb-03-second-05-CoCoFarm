@@ -8,5 +8,5 @@ const createWallet = async () => {
   };
 };
 
-console.log(createWallet());
+// console.log(createWallet());
 export default createWallet;
