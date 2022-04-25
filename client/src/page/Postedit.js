@@ -3,20 +3,13 @@ import {
   Box,
   Avatar,
   Typography,
-  IconButton,
-  Divider,
   TextField,
   Button,
 } from "@material-ui/core";
-import CommentIcon from "@material-ui/icons/Comment";
-import ShareIcon from "@material-ui/icons/Share";
-import SendIcon from "@material-ui/icons/Send";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Comment from "../components/comment";
 
 function Postedit({ userInfo }) {
   const location = useLocation();
@@ -25,8 +18,6 @@ function Postedit({ userInfo }) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  const navigate = useNavigate();
 
   function handleTitle(e) {
     setTitle(e.target.value);
@@ -52,7 +43,7 @@ function Postedit({ userInfo }) {
       { withCredentials: true }
     );
     window.alert(result.data.message);
-    navigate("/");
+    window.location.replace("/");
   }
   return (
     <div className="Postedit">
