@@ -13,12 +13,11 @@ class ClientAccounts {
   // 현재 고객이 보유하고 있는 토큰 확인
   async balanceOf() {
     try {
+      const decimal = 10 ** 6;
       const contract = new ethers.Contract(CA, abi, this.wallet);
       const amount = await contract.balanceOf(this.wallet.address);
-      const number = await amount.toNumber();
-
-      console.log(number);
-      return number;
+      const value = amount / decimal;
+      return value;
     } catch (err) {
       console.log(err);
     }

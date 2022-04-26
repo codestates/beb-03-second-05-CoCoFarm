@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
     if (tokenBalance === undefined) {
       tokenBalance = 0;
     }
+
     const { nickName, email, avartar, posts } = user;
 
     const mapPosts = await Promise.all(

@@ -11,6 +11,14 @@ const reward = async () => {
     if (posts.length === 0) {
       return "보상을 할 것이 없습니다.";
     } else {
+      const decimal = 10 ** 6;
+      await Promise.all(
+        posts.map(async (post) => {
+          const amount = parseInt((post.rewardCount / 5) * decimal);
+          const user = await User.findOne({ nickName: post.author });
+          await ServerAccount.rewardToken(user.wallet.address, amount);
+        })
+      );
       await Promise.all(
         posts.map(async (post) => {
           console.log(post);
@@ -19,14 +27,8 @@ const reward = async () => {
           });
         })
       );
-      await Promise.all(
-        posts.map(async (post) => {
-          const amount = parseInt(post.rewardCount / 5);
-          const user = await User.findOne({ nickName: post.author });
-          await ServerAccount.rewardToken(user.wallet.address, amount);
-        })
-      );
     }
+    console.log("보상끝");
   } catch (err) {
     console.log(err);
   }
