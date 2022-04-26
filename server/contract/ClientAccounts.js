@@ -3,7 +3,7 @@ import abi from "./abi.js";
 
 import provider from "./provider.js";
 
-const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
+const CA = "0x971c34A0A0362843d947c93B81d19780D1b81204";
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);

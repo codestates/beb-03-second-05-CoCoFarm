@@ -4,7 +4,7 @@ import abi from "./abi.js";
 const privateKey =
   "cf36b9064c497b8d360b351271a519ce0019371465140346c851285173489cf5";
 
-const CA = "0xfFEd53a81b5b5371Cfaef55d0040c04E31D24A59";
+const CA = "0x971c34A0A0362843d947c93B81d19780D1b81204";
 const wallet = new ethers.Wallet(privateKey, provider);
 const erc20 = new ethers.Contract(CA, abi, wallet);
 
