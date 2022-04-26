@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 //userInfo는 app.js에서 세팅
+
 function App() {
   const [userInfo, setUserInfo] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -123,27 +124,6 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
-
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
 }
