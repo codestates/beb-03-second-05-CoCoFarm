@@ -2,8 +2,9 @@ import { ethers } from "ethers";
 import abi from "./abi.js";
 
 import provider from "./provider.js";
+import { config } from "../config.js";
 
-const CA = "0x971c34A0A0362843d947c93B81d19780D1b81204";
+const CA = config.CA;
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);
@@ -25,7 +26,8 @@ class ClientAccounts {
   //이더 후원하기
   async support(toAddress, amount) {
     try {
-      const tx = await this.contract.transfer(toAddress, amount);
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const tx = await contract.transfer(toAddress, amount);
       const result = await tx.wait();
       return result;
     } catch (err) {
