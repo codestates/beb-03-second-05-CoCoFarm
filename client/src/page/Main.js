@@ -18,9 +18,10 @@ function Main({ postings, isLogin, userInfo }) {
         }}
       >
         {postings &&
-          postings.map((item) => {
+          postings.map((item, index) => {
             return (
               <Box
+                key={index}
                 style={{
                   padding: "1%",
                 }}

@@ -44,7 +44,7 @@ function App() {
     // 검색어가 존재한다면 필터링해서 보여주기
     if (item) {
       console.log(item);
-      let posts = result.data.posts;
+      let posts = result.data.posts.reverse();
       posts = posts.filter((elem) => {
         if (
           elem.nickName.includes(item) ||
@@ -59,7 +59,7 @@ function App() {
       console.log("filtering : ", posts);
       setPostings([...posts]);
     } else {
-      setPostings(result.data.posts);
+      setPostings(result.data.posts.reverse());
     }
   }
 

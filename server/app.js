@@ -41,26 +41,26 @@ app.use(helmet());
 app.use(morgan("tiny"));
 
 setInterval(reward, 60000);
-
-// 로그인 시 라우터
+// 메인 라우터
+app.use("/cocofarm", mainPageRouter);
+// 인증 라우터
 app.use("/tokenAuth", tokenAuthRouter);
 app.use("/login", loginRouter);
-
 app.use("/signup", singUpRouter);
 
-app.use("/posting", postingRouter);
-
-app.use("/edit", editRouter);
-
-app.use("/cocofarm", mainPageRouter);
-
+// 개인정보 확인 및 수정
 app.use("/myPage", myPageRouter);
 
+// 게시물 관련 라우터
+app.use("/posting", postingRouter);
+app.use("/edit", editRouter);
 app.use("/posts", postDetail);
-
 app.use("/comments", commentsRouter);
 app.use("/like", likeRouter);
+
+// 토큰 후원
 app.use("/supportToken", supprotTokenRouter);
+
 // 에러처리
 app.use((error, req, res, next) => {
   console.error(error);

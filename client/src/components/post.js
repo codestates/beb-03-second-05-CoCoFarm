@@ -35,9 +35,16 @@ const ExpandMore = styled((props) => {
 
 export default function Post({ item, isLogin, userInfo }) {
   const [expanded, setExpanded] = useState(false);
+  //comment -> 댓글 목록
   const [comment, setComment] = useState(undefined);
+  // isLiked-> 좋아요 눌렸는지 플래그
   const [isLiked, setIsLiked] = useState(false);
   const likeColor = isLiked ? pink[200] : "inherit";
+  // 댓글 수
+  const [commmentNum, setCommentNum] = useState(0);
+  // 좋아요 수
+  const [likeNum, setLikeNum] = useState(0);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -53,6 +60,7 @@ export default function Post({ item, isLogin, userInfo }) {
       setIsLiked(true);
     }
   }, []);
+  useEffect(() => {}, [likeNum]);
   // 코멘트 다는 함수
   async function makeComment() {
     if (isLogin === true) {
@@ -63,16 +71,15 @@ export default function Post({ item, isLogin, userInfo }) {
         { withCredentials: true }
       );
       window.alert(result.data.message);
-      window.location.replace("/");
     } else {
       window.alert("먼저 로그인 해주세요.");
     }
   }
+  // 좋아요 버튼 눌렸을 때 동작하는 함수
   async function makeLike() {
     if (isLogin === true) {
       // 로그인 되어있을 때만 동작
       if (isLiked === false) {
-        setIsLiked(true);
         let result = await axios.post(
           "https://localhost:8080/like",
           {
@@ -80,8 +87,12 @@ export default function Post({ item, isLogin, userInfo }) {
           },
           { withCredentials: true }
         );
-        window.alert(result.data.message);
-        window.location.replace("/");
+        if (result.data.message === "좋아요를 눌렀습니다.") {
+          window.location.replace("/");
+          window.alert(result.data.message);
+        }
+        console.log(likeNum);
+        // window.location.replace("/");
       } else {
         setIsLiked(false);
         let result = await axios.post(
@@ -146,7 +157,7 @@ export default function Post({ item, isLogin, userInfo }) {
           />
         </IconButton>
         <Typography variant="body2" color="inherit">
-          {`${item.likeCount}`}
+          {item.likeCount}
         </Typography>
         <ExpandMore
           expand={expanded}
@@ -157,7 +168,7 @@ export default function Post({ item, isLogin, userInfo }) {
           <CommentIcon />
         </ExpandMore>
         <Typography variant="body2" color="inherit">
-          {`${item.commentsCount}`}
+          {item.commentsCount}
         </Typography>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
