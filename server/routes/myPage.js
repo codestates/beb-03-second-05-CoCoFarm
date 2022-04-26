@@ -40,15 +40,18 @@ router.post("/:nickName", async (req, res) => {
   try {
     const token = req.cookies.jwt;
     const data = decodingToken(token);
-    const { nickName } = data;
+    console.log(data);
+    const nickname = req.params.nickName;
+    console.log(`nickname = ${nickname}`);
     const userSchema = req.body;
     if (userSchema.password !== undefined) {
       userSchema.password = await hashedPassword(userSchema.password);
     }
-    const user1 = await User.findOneAndUpdate({ nickName }, userSchema, {
-      new: true,
-    });
-    console.log(user1);
+    const user1 = await User.findOneAndUpdate(
+      { nickName: nickname },
+      userSchema
+    );
+    // console.log(user1);
     const newToken = createToken(user1);
     res
       .status(200)

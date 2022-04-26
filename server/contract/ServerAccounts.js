@@ -2,8 +2,7 @@ import { ethers } from "ethers";
 import provider from "./provider.js";
 import abi from "./abi.js";
 import { config } from "../config.js";
-const privateKey =
-  "3c9182c9c893b7320c8d65464e5693c261922d36ab1461c4c562b630b54592cc";
+const privateKey = config.ServerPriveKey;
 
 const CA = config.CA;
 const wallet = new ethers.Wallet(privateKey, provider);

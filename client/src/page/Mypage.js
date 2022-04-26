@@ -22,7 +22,8 @@ function Mypage({ isLogin, userInfo }) {
   const [isPosttab, setIsPosttab] = useState(true);
   const [isEdittab, setIsEdittab] = useState(false);
   const [signupFlag, setSignupFlag] = useState(false);
-
+  const [cocos, setCocos] = useState(0);
+  const [avatar, setAvatar] = useState("");
   function nicknameHandler(e) {
     setNickname(e.target.value);
   }
@@ -62,18 +63,39 @@ function Mypage({ isLogin, userInfo }) {
     window.alert(result.data.message);
     window.location.replace("/mypage");
   }
+  //본인 포스팅 받아오는 함수
   async function getMypost() {
     let result = await axios.get("https://localhost:8080/myPage", {
       withCredentials: true,
     });
-    return result.data.posts;
+    return result.data;
   }
   useEffect(() => {
-    getMypost().then(setMyposts);
+    getMypost().then((data) => {
+      console.log(data);
+      setMyposts(data.posts);
+      setAvatar(data.avartar);
+      setCocos(data.tokenBalance);
+    });
   }, []);
   useEffect(() => {
     console.log("my postings : ", myposts);
   }, [myposts]);
+
+  async function changeImage() {
+    const link = window.prompt("이미지 링크를 입력하세요");
+    await axios({
+      method: "post",
+      url: `https://localhost:8080/myPage/${userInfo}`,
+      data: {
+        avartar: link,
+      },
+    })
+      .then((res) => {
+        setAvatar(link);
+      })
+      .catch(console.log);
+  }
   return (
     <div className="Mypage">
       <Container
@@ -112,8 +134,21 @@ function Mypage({ isLogin, userInfo }) {
                     background: "orange",
                     margin: "1rem",
                   }}
+                  src={avatar === null ? userInfo[0] : avatar}
+                  onClick={changeImage}
                 >
-                  {userInfo[0] || "U"}
+                  {/* {avatar === null ? (
+                    userInfo[0]
+                  ) : (
+                    <img
+                      src={avatar}
+                      alt="avatar"
+                      style={{
+                        objectFit: "contain",
+                      }}
+                    ></img>
+                  )}
+                  {userInfo[0] || "U"} */}
                 </Avatar>
               ) : null}
             </Box>
@@ -135,7 +170,7 @@ function Mypage({ isLogin, userInfo }) {
                   color: "gray",
                 }}
               >
-                {isLogin ? "your cocos : 0" : null}
+                {isLogin ? `your cocos : ${cocos}` : null}
               </Typography>
             </Box>
           </Box>
