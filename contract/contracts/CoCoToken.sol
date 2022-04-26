@@ -59,12 +59,13 @@ contract CoCoToken is Context, InterERC20, OwnerHelper {
     string private _name;
     string private _symbol;
     uint8 public _decimals;
+    uint private E18 = 1000000000000000000;
 
     constructor() {
         _name = "CoCo Farm Token";
         _symbol = "CoCo";
-        _decimals = 18;
-        _totalSupply = 100000000 * (10 ^ _decimals);
+        _decimals = 6;
+        _totalSupply = 100000000 * (10 ** _decimals);
         _balances[msg.sender] = _totalSupply;
     }
 
@@ -77,7 +78,7 @@ contract CoCoToken is Context, InterERC20, OwnerHelper {
     }
 
     function decimals() public view virtual override returns (uint8) {
-        return 18;
+        return 6;
     }
 
     function totalSupply() public view virtual override returns (uint256) {
