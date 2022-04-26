@@ -76,6 +76,7 @@ function Mypage({ isLogin, userInfo }) {
       setMyposts(data.posts);
       setAvatar(data.avartar);
       setCocos(data.tokenBalance);
+      console.log("tokenBalance : ", data.tokenBalance);
     });
   }, []);
   useEffect(() => {
