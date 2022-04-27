@@ -36,11 +36,12 @@ class ServerAccounts {
         to: toAddress,
         value: ethers.utils.parseEther("1.0"),
       };
+      console.log("토큰전송 완료");
       const sendEther = await this.wallet.sendTransaction(transaction);
       const result2 = await sendEther.wait();
       console.log(result);
       console.log(result2);
-      console.log("토큰 및 이더 전송 완료");
+      console.log("이더 전송 완료");
     } catch (err) {
       console.log(err);
     }
