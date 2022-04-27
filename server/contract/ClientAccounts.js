@@ -17,8 +17,6 @@ class ClientAccounts {
       const contract = new ethers.Contract(CA, abi, this.wallet);
       const amount = await contract.balanceOf(this.wallet.address);
       const number = await amount.toNumber();
-
-      console.log(number);
       return number;
     } catch (err) {
       console.log(err);
