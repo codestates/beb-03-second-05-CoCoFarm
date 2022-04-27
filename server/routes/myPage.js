@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
     if (tokenBalance === undefined) {
       tokenBalance = 0;
     }
+
     const { nickName, email, avartar, posts } = user;
 
     const mapPosts = await Promise.all(
@@ -28,8 +29,16 @@ router.get("/", async (req, res) => {
         return Post.findOne({ _id: ObjectId(postId) });
       })
     );
-
-    res.send({ nickName, email, avartar, posts: mapPosts, tokenBalance });
+    const nftBalance = await client.balanceOfNFT();
+    console.log(`nftBalance = ${nftBalance}`);
+    res.send({
+      nickName,
+      email,
+      avartar,
+      posts: mapPosts,
+      tokenBalance,
+      nftBalance,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "서버에서 읽을수가 없습니다." });

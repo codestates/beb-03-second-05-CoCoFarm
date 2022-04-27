@@ -2,6 +2,8 @@ const fs = require("fs");
 const NFTs = artifacts.require("NFTs.sol");
 
 module.exports = function (deployer) {
+
+
     console.log("deploy...");
     deployer.deploy(NFTs).then(() => {
         if (NFTs._json) {
@@ -17,3 +19,4 @@ module.exports = function (deployer) {
         }
    });
 };
+

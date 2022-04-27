@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
 import abi from "./abi.js";
-
+import nftAbi from "./nftAbi.js";
 import provider from "./provider.js";
 import { config } from "../config.js";
 
 const CA = config.CA;
+const NFTAddress = config.NFT;
 class ClientAccounts {
   constructor(privateKey) {
     this.wallet = new ethers.Wallet(privateKey, provider);
@@ -16,13 +17,24 @@ class ClientAccounts {
       const contract = new ethers.Contract(CA, abi, this.wallet);
       const amount = await contract.balanceOf(this.wallet.address);
       const number = await amount.toNumber();
-
-      console.log(number);
       return number;
     } catch (err) {
       console.log(err);
     }
   }
+  async balanceOfNFT() {
+    try {
+      const contract = new ethers.Contract(NFTAddress, nftAbi, this.wallet);
+      const amount = await contract.balanceOf(this.wallet.address);
+      const result = amount.toString();
+      console.log(`보유하신 nft 갯수는 = ${amount}`);
+
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   //이더 후원하기
   async support(toAddress, amount) {
     try {
@@ -35,7 +47,5 @@ class ClientAccounts {
     }
   }
 }
-
-// 실험중
 
 export default ClientAccounts;

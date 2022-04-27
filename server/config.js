@@ -9,5 +9,6 @@ export const config = {
   salt: process.env.SALT_ROUNDS,
   seed_salt: process.env.SEED_SALT,
   CA: process.env.CA,
-  ServerPriveKey: process.env.ServerPrivKey,
+  NFT: process.env.NFTCA,
+  ServerPriveKey: process.env.SERVERPRIVKEY,
 };

@@ -12,6 +12,7 @@ const userSchema = new Schema({
   email: { type: String, unique: true, required: true },
   avartar: { type: String },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  tokenBalance: { type: Number },
 });
 
 const User = mongoose.model("User", userSchema);
