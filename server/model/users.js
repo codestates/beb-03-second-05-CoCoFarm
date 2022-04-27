@@ -13,6 +13,7 @@ const userSchema = new Schema({
   avartar: { type: String },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   tokenBalance: { type: Number },
+  admin: { type: Boolean },
 });
 
 const User = mongoose.model("User", userSchema);
