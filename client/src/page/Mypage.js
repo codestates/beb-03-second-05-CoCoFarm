@@ -23,6 +23,7 @@ function Mypage({ isLogin, userInfo }) {
   const [isEdittab, setIsEdittab] = useState(false);
   const [signupFlag, setSignupFlag] = useState(false);
   const [cocos, setCocos] = useState(0);
+  const [nfts, setNfts] = useState(0);
   const [avatar, setAvatar] = useState("");
   function nicknameHandler(e) {
     setNickname(e.target.value);
@@ -72,10 +73,11 @@ function Mypage({ isLogin, userInfo }) {
   }
   useEffect(() => {
     getMypost().then((data) => {
-      console.log(data);
+      console.log(`mypagedata : ${JSON.stringify(data)}`);
       setMyposts(data.posts);
       setAvatar(data.avartar);
       setCocos(data.tokenBalance);
+      setNfts(data.nftBalance);
     });
   }, []);
   useEffect(() => {
@@ -171,6 +173,14 @@ function Mypage({ isLogin, userInfo }) {
                 }}
               >
                 {isLogin ? `your cocos : ${cocos}` : null}
+              </Typography>
+              <Typography
+                variant="body1"
+                style={{
+                  color: "gray",
+                }}
+              >
+                {isLogin ? `your nfts : ${nfts}` : null}
               </Typography>
             </Box>
           </Box>

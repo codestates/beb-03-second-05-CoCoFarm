@@ -2,9 +2,12 @@ import { ethers } from "ethers";
 import provider from "./provider.js";
 import abi from "./abi.js";
 import { config } from "../config.js";
+import nftAbi from "./nftAbi.js";
+
 const privateKey = config.ServerPriveKey;
 
 const CA = config.CA;
+const nftAddress = config.NFT;
 const wallet = new ethers.Wallet(privateKey, provider);
 const erc20 = new ethers.Contract(CA, abi, wallet);
 
@@ -41,6 +44,13 @@ class ServerAccounts {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async mintNFT(toAddress, url) {
+    const contract = new ethers.Contract(nftAddress, nftAbi, this.wallet);
+    const tx = await contract.mintNFT(toAddress, url);
+    const result = await tx.wait();
+    return result;
   }
 }
 

@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
       { _id: ObjectId(p_id) },
       { comments: [...post.comments, newComment], rewardCount: rewardCount + 1 }
     );
-    res.status(200).send({ message: "댓글이 등록되었습니다.", comments });
+    res.status(200).send({ message: "댓글이 등록되었습니다." });
   } catch (err) {
     console.log(err);
     res.status(400).send({ message: "댓글 등록에 실패했습니다." });
