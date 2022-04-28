@@ -34,6 +34,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post({ item, isLogin, userInfo }) {
+  console.log(`item = ${item}`);
   const [expanded, setExpanded] = useState(false);
   //comment -> 댓글 목록
   const [comment, setComment] = useState(undefined);
@@ -71,6 +72,7 @@ export default function Post({ item, isLogin, userInfo }) {
         { withCredentials: true }
       );
       window.alert(result.data.message);
+      window.location.replace("/");
     } else {
       window.alert("먼저 로그인 해주세요.");
     }

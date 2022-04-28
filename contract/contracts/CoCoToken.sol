@@ -1,3 +1,4 @@
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
@@ -24,35 +25,86 @@ abstract contract Context {
         return msg.data;
     }
 }
+library SafeMath {
+  	function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+		uint256 c = a * b;
+		assert(a == 0 || c / a == b);
+		return c;
+  	}
+
+  	function div(uint256 a, uint256 b) internal pure returns (uint256) {
+	    uint256 c = a / b;
+		return c;
+  	}
+
+  	function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+		assert(b <= a);
+		return a - b;
+  	}
+
+  	function add(uint256 a, uint256 b) internal pure returns (uint256) {
+		uint256 c = a + b;
+		assert(c >= a);
+		return c;
+	}
+}
 
 abstract contract OwnerHelper {
-  	address private _owner;
+    using SafeMath for uint;
+
+    // [Try] owner를 private 으로 선언해야한다.
+    mapping (address => address) internal _owner;
+    mapping (string => uint) internal _ownercnt; 
+    mapping(address => uint256) internal _balances;
+    // agenda id(투표안건 0번)
+    // agenda voter id 투표안건 0번의 투표자 0번
+    // agenda voter id's address 
+    mapping (string => mapping(address => address)) internal _agenda;
+    mapping (string => uint256) internal _voters;
+
+    // address[2] private _owner;
 
   	event OwnershipTransferred(address indexed preOwner, address indexed nextOwner);
 
   	modifier onlyOwner {
-		require(msg.sender == _owner, "OwnerHelper: caller is not owner");
+		require(msg.sender == _owner[msg.sender], "OwnerHelper: caller is not owner");
 		_;
   	}
-
   	constructor() {
-		_owner = msg.sender;
+            _owner[msg.sender] = msg.sender;
+            _ownercnt["ownercnt"] = 1;
   	}
 
-  	function owner() public view virtual returns (address) {
-		return _owner;
-  	}
+    //    function owner() public view virtual returns (address) {
+    //        return _owner;
+    //    }
 
-  	function transferOwnership(address newOwner) onlyOwner public {
-		require(newOwner != _owner);
-		require(newOwner != address(0x0));
-		_owner = newOwner;
-		emit OwnershipTransferred(_owner, newOwner);
+  	function transferOwnership(address preOwner, address newOwner) onlyOwner public {
+            require(newOwner != _owner[newOwner]);
+            require(preOwner == _owner[preOwner]);
+            require(newOwner != address(0x0));
+            // PreOwner의 키-밸류를 newOwner의 키-밸류로 변경
+    	    // preOwner 삭제 -> 삭제를 하면 키-밸류가 사라지는게 아니라 0으로 초기화됩니다.
+            delete _owner[preOwner];
+            _owner[newOwner] = newOwner;
+    	    emit OwnershipTransferred(preOwner, newOwner);
   	}
+         // 관리자 권한 부여 함수
+    function giveOwnership(address newOwner) onlyOwner public{
+        // _owner 객체에 추가 (newOwner 어드레스를)
+        // 유효한 주소인지 검사
+        // 이미 관리자로 등록이 되었는지
+    require(newOwner != address(0x0));
+    require(_balances[newOwner] >= 5);
+    require(newOwner != _owner[newOwner]);
+    // _newOwner가 이미 3개의 키-값 이 있는지?? -> map 의 키 개수를 계산할 수는 없다
+    _owner[newOwner] = newOwner;
+    _ownercnt["ownercnt"] = _ownercnt["ownercnt"].add(1); //SafeMath.add로 고쳐보기
+    }
 }
 
 contract CoCoToken is Context, InterERC20, OwnerHelper {
-    mapping(address => uint256) private _balances;
+    using SafeMath for uint256;
     mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
@@ -65,7 +117,34 @@ contract CoCoToken is Context, InterERC20, OwnerHelper {
         _symbol = "CoCo";
         _decimals = 6;
         _totalSupply = 100000000 * (10 ** _decimals);
-        _balances[msg.sender] = _totalSupply;
+        _balances[msg.sender] = _totalSupply; 
+    }
+
+
+    // 안건 올리는 함수
+    function listenMyopinion (string memory agenda) onlyOwner public{
+        require(msg.sender == _owner[msg.sender]);  // 관리자만 투표 참여
+        // Agenda a = Agenda(agenda,voters[msg.sender] = msg.sender);
+        _agenda[agenda][msg.sender] = msg.sender;
+        // _agenda[agenda]["voters"] =1;
+        _voters[agenda] = 1;
+
+    }
+
+    function voteYouropinion (string memory agenda) onlyOwner public{
+        require(msg.sender == _owner[msg.sender]);  // 관리자만 투표 참여
+        require(msg.sender != _agenda[agenda][msg.sender]); // 이미 투표했는지 검사
+        _agenda[agenda][msg.sender] = msg.sender;
+        _voters[agenda] = _voters[agenda].add(1);
+    }
+
+    function voteCheck (string memory agenda) public view returns (bool result){ //view옵션 : storage 데이터 읽기 전용, pure : starage 데이터 읽지도 못함(매개변수만 사용)
+        if(_voters[agenda] == _ownercnt["ownercnt"]){
+            result = true;
+        }
+        else{
+            result = false;
+        }
     }
 
     function name() public view virtual override returns (string memory) {
@@ -86,6 +165,11 @@ contract CoCoToken is Context, InterERC20, OwnerHelper {
 
     function balanceOf(address account) public view virtual override returns (uint256) {
         return _balances[account];
+    }
+
+    function isOwner(address account) public view returns (bool) {
+        require(account == _owner[account]);
+        return true;
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {

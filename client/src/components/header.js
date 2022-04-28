@@ -12,8 +12,9 @@ import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
-
+import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import WbSunnyOutlinedIcon from "@material-ui/icons/WbSunnyOutlined";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import CreateIcon from "@material-ui/icons/Create";
@@ -249,6 +250,11 @@ export default function Header({ isLogin, handleLogout, getPostings }) {
               to={"/posting"}
             >
               <CreateIcon />
+            </IconButton>
+          </Box>
+          <Box>
+            <IconButton color="inherit" component={Link} to={"/vote"}>
+              <HowToVoteIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

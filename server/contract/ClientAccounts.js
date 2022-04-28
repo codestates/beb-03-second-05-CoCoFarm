@@ -46,6 +46,37 @@ class ClientAccounts {
       console.log(err);
     }
   }
+  a;
+  async isOwner() {
+    try {
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const result = await contract.isOwner(this.wallet.address);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  // agenda = JSON.stringfy({})
+  async uploadOpinion(agenda) {
+    try {
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const result = await contract.listenMyopinion(agenda);
+      console.log(`안건 발의 완료 = ${result}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async agreeOpinion(agenda) {
+    try {
+      const contract = new ethers.Contract(CA, abi, this.wallet);
+      const result = await contract.voteYouropinion(agenda);
+      console.log(`투표 완료 = ${result}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export default ClientAccounts;
