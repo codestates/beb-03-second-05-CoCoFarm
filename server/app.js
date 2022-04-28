@@ -21,6 +21,7 @@ import postDetail from "./routes/postDetail.js";
 import commentsRouter from "./routes/comments.js";
 import likeRouter from "./routes/like.js";
 import supprotTokenRouter from "./routes/supportToken.js";
+import voteRouter from "./routes/vote.js";
 import reward from "./contract/reward.js";
 import tokenUpdate from "./contract/tokenUpdate.js";
 
@@ -41,11 +42,11 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 
-// 보상함수
-setInterval(reward, 60000);
+// // 보상함수
+// setInterval(reward, 20000);
 
-//토큰 데이터베이스 업데이트
-setInterval(tokenUpdate, 60000);
+// //토큰 데이터베이스 업데이트
+// setInterval(tokenUpdate, 20000);
 
 // 메인 라우터
 app.use("/cocofarm", mainPageRouter);
@@ -66,6 +67,9 @@ app.use("/like", likeRouter);
 
 // 토큰 후원
 app.use("/supportToken", supprotTokenRouter);
+
+// 투표
+app.use("/vote", voteRouter);
 
 // 에러처리
 app.use((error, req, res, next) => {

@@ -53,10 +53,31 @@ class ServerAccounts {
     const result = await tx.wait();
     return result;
   }
+
+  async isOwner() {
+    try {
+      const result = await this.contract.isOwner(this.wallet.address);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async giveOwnership(toAddress) {
+    try {
+      const result = await this.contract.giveOwnership(toAddress);
+      console.log("권한을 줬습니다.");
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 const ServerAccount = new ServerAccounts();
 // ServerAccount.balanceOf().then((result) =>
 //   console.log(`서버 남은 토큰:${result}`)
 // );
+const isOwer = await ServerAccount.isOwner();
+console.log(`Server is Owner = ${isOwer}`);
 export default ServerAccount;

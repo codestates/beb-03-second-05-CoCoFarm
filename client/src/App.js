@@ -6,7 +6,8 @@ import Posting from "./page/Posting";
 import Postdetail from "./page/Postdetail";
 import Mypage from "./page/Mypage";
 import Postedit from "./page/Postedit";
-
+import Vote from "./page/Vote";
+import VotePosting from "./page/VotePosting";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Cookies } from "react-cookie";
@@ -121,6 +122,12 @@ function App() {
           <Route
             path="/mypage"
             element={<Mypage isLogin={isLogin} userInfo={userInfo} />}
+          ></Route>
+          <Route path="/vote" element={<Vote isLogin={isLogin} />}></Route>
+
+          <Route
+            path="/vote/posting"
+            element={<VotePosting isLogin={isLogin} userInfo={userInfo} />}
           ></Route>
         </Routes>
       </BrowserRouter>

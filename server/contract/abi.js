@@ -88,21 +88,25 @@ const abi = [
     constant: true,
   },
   {
-    inputs: [],
-    name: "owner",
-    outputs: [
+    inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "newOwner",
         type: "address",
       },
     ],
-    stateMutability: "view",
+    name: "giveOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
-    constant: true,
   },
   {
     inputs: [
+      {
+        internalType: "address",
+        name: "preOwner",
+        type: "address",
+      },
       {
         internalType: "address",
         name: "newOwner",
@@ -113,6 +117,52 @@ const abi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "agenda",
+        type: "string",
+      },
+    ],
+    name: "listenMyopinion",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "agenda",
+        type: "string",
+      },
+    ],
+    name: "voteYouropinion",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "agenda",
+        type: "string",
+      },
+    ],
+    name: "voteCheck",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "result",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
   },
   {
     inputs: [],
@@ -184,6 +234,26 @@ const abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "isOwner",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",

@@ -23,7 +23,8 @@ const reward = async () => {
         posts.map(async (post) => {
           const amount = parseInt(post.rewardCount / 5);
           const user = await User.findOne({ nickName: post.author });
-          await ServerAccount.rewardToken(user.wallet.address, amount);
+          await ServerAccount.rewardToken(user.wallet.address, 5);
+          // 나중에 5 -> amount 해줘야함.
         })
       );
     }
