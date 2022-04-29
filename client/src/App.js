@@ -42,7 +42,7 @@ function App() {
 
   // 포스팅 불러오는 함수
   async function getPostings(item) {
-    let result = await axios.get("https://localhost:8080/cocofarm", {
+    let result = await axios.get("https://cocofarm.herokuapp.com/cocofarm", {
       withCredentials: true,
     });
     // 검색어가 존재한다면 필터링해서 보여주기
@@ -71,7 +71,7 @@ function App() {
     console.log(getCookie("jwt"));
     if (getCookie("jwt")) {
       // jwt 토큰이 있으면 서버로 유저 정보 요청 보내기
-      let result = await axios.get("https://localhost:8080/tokenAuth", {
+      let result = await axios.get("https://cocofarm.herokuapp.com/tokenAuth", {
         withCredentials: true,
       });
       if (result.data.nickName) {

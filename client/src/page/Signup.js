@@ -44,7 +44,7 @@ function Signup() {
       // 문제 없으면 콘솔에 출력 후 리디렉션
       if (signupFlag) {
         let result = await axios.post(
-          "https://localhost:8080/signup",
+          "https://cocofarm.herokuapp.com/signup",
           {
             nickName: nickname,
             password,

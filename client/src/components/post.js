@@ -67,7 +67,7 @@ export default function Post({ item, isLogin, userInfo }) {
     if (isLogin === true) {
       // 로그인 되어있을때만 동작
       let result = await axios.post(
-        "https://localhost:8080/comments",
+        "https://cocofarm.herokuapp.com/comments",
         { p_id: item.p_id, comment: comment },
         { withCredentials: true }
       );

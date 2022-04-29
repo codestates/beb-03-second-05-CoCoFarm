@@ -8,20 +8,10 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 function VotePosting({ userInfo, isLogin }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  // const [hasgtag,setHashtag] = useState("");
-  // optional
-  const cookies = new Cookies();
-  const navigate = useNavigate();
-
-  const getCookie = (name) => {
-    return cookies.get(name);
-  };
 
   function handleTitle(e) {
     setTitle(e.target.value);
@@ -37,7 +27,7 @@ function VotePosting({ userInfo, isLogin }) {
   //  클릭함수 로그인된거 처리하기
   async function clickPosting() {
     let result = await axios.post(
-      "https://localhost:8080/vote/posting",
+      "https://cocofarm.herokuapp.com/vote/posting",
       {
         title,
         content,
@@ -58,7 +48,6 @@ function VotePosting({ userInfo, isLogin }) {
           alignItems: "center",
         }}
       >
-        {/* 흰 배경 박스 */}
         <Box
           style={{
             background: "white",

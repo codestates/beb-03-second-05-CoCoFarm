@@ -33,7 +33,7 @@ function Postedit({ userInfo }) {
   //  클릭함수 로그인된거 처리하기
   async function clickPosting() {
     let result = await axios.put(
-      "https://localhost:8080/edit",
+      "https://cocofarm.herokuapp.com/edit",
       {
         p_id,
         title,
