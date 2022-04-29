@@ -28,12 +28,14 @@ import tokenUpdate from "./contract/tokenUpdate.js";
 // import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
 const app = express();
-const port = config.host || 8000;
+const port = config.port || 8000;
 // BODY - PARSER
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(
   cors({
     origin: ["https://localhost:3000"],
+
     credentials: true,
     //쿠키 header 넣어주려면 필요
   })
@@ -43,10 +45,10 @@ app.use(helmet());
 app.use(morgan("tiny"));
 
 // 보상함수 (10분마다 보상해줌.)
-setInterval(reward, 10000);
+setInterval(reward, 60000);
 
 //토큰 데이터베이스 업데이트(10분마다 보상해줌.)
-setInterval(tokenUpdate, 20000);
+setInterval(tokenUpdate, 60000);
 
 // 메인 라우터
 app.use("/cocofarm", mainPageRouter);

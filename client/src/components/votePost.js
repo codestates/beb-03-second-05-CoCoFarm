@@ -35,7 +35,7 @@ export default function VotePost({
       if (admin === true) {
         if (item.isVote === false) {
           let result = await axios.post(
-            "https://localhost:8080/vote/agree",
+            "https://cocofarm.herokuapp.com/vote/agree",
             {
               p_id: item.p_id,
             },
