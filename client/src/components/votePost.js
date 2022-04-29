@@ -17,8 +17,16 @@ import { styled } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
 
-export default function VotePost({ item, isLogin, admin }) {
+export default function VotePost({
+  item,
+  isLogin,
+  admin,
+  agreeVoters,
+  totalAdmin,
+}) {
   const [isLiked, setIsLiked] = useState(false);
+  // const [ownerCnt, setOwnerCnt] = useState(0);
+  // const [voterCnt, setVoterCnt] = useState(0);
   const likeColor = isLiked || item.isVote ? pink[200] : "inherit";
   // 좋아요 버튼 눌렸을 때 동작하는 함수
   async function checkVote() {
@@ -64,9 +72,16 @@ export default function VotePost({ item, isLogin, admin }) {
             {item.author[0] || "U"}
           </Avatar>
         }
+        action={
+          agreeVoters === totalAdmin ? (
+            <Typography variant="body1">투표완료</Typography>
+          ) : (
+            <Typography variant="body1">{`투표인원 = ${agreeVoters} / ${totalAdmin}`}</Typography>
+          )
+        }
         title={item.author}
         subheader={`${item.timestamp || ""}`}
-      />
+      ></CardHeader>
 
       <CardContent>
         <Typography variant="h6" color="inherit">

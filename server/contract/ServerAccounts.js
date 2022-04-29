@@ -31,16 +31,14 @@ class ServerAccounts {
   async rewardToken(toAddress, amount) {
     try {
       const sendToken = await this.contract.transfer(toAddress, amount);
-      const result = await sendToken.wait();
+      await sendToken.wait();
+      console.log("토큰전송 완료");
       const transaction = {
         to: toAddress,
-        value: ethers.utils.parseEther("1.0"),
+        value: ethers.utils.parseEther("0.001"),
       };
-      console.log("토큰전송 완료");
       const sendEther = await this.wallet.sendTransaction(transaction);
-      const result2 = await sendEther.wait();
-      console.log(result);
-      console.log(result2);
+      await sendEther.wait();
       console.log("이더 전송 완료");
     } catch (err) {
       console.log(err);

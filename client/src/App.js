@@ -18,6 +18,7 @@ function App() {
   const [userInfo, setUserInfo] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [postings, setPostings] = useState(undefined);
+  const [cookie, setCookie] = useState(undefined);
   const cookies = new Cookies();
 
   useEffect(() => {
@@ -26,15 +27,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("userNickname : ", userInfo);
-    console.log("isLogin? : ", isLogin);
+    // console.log("userNickname : ", userInfo);
+    // console.log("isLogin? : ", isLogin);
   }, [userInfo, isLogin]);
 
   useEffect(() => {
-    console.log("current postings : ", postings);
+    // console.log("current postings : ", postings);
   }, [postings]);
 
   const getCookie = (name) => {
+    setCookie(cookies.get(name));
     return cookies.get(name);
   };
 

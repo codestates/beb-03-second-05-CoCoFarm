@@ -139,6 +139,7 @@ contract CoCoToken is Context, InterERC20, OwnerHelper {
     }
 
     function voteCheck (string memory agenda) public view returns (bool result){ //view옵션 : storage 데이터 읽기 전용, pure : starage 데이터 읽지도 못함(매개변수만 사용)
+        
         if(_voters[agenda] == _ownercnt["ownercnt"]){
             result = true;
         }
