@@ -42,11 +42,11 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 
-// // 보상함수
-// setInterval(reward, 20000);
+// 보상함수 (10분마다 보상해줌.)
+setInterval(reward, 10000);
 
-// //토큰 데이터베이스 업데이트
-// setInterval(tokenUpdate, 20000);
+//토큰 데이터베이스 업데이트(10분마다 보상해줌.)
+setInterval(tokenUpdate, 20000);
 
 // 메인 라우터
 app.use("/cocofarm", mainPageRouter);

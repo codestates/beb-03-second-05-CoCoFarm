@@ -55,7 +55,7 @@ function Signup() {
         );
         window.alert(result.data.message);
         // window.alert("회원가입 성공!");
-        navigate("/");
+        window.location.replace("/");
       } else {
         window.alert(WarningMessage);
       }

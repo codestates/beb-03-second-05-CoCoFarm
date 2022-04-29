@@ -7,7 +7,7 @@ import VotePost from "../components/votePost";
 const Vote = ({ isLogin }) => {
   const [admin, setAdmin] = useState(false);
   const [contents, setContents] = useState([]);
-
+  const [totalAdmin, setTotalAdmin] = useState(0);
   async function getVotePostings() {
     let data = await axios.get("https://localhost:8080/vote", {
       withCredentials: true,
@@ -21,6 +21,7 @@ const Vote = ({ isLogin }) => {
       console.log(data);
       setAdmin(data.admin);
       setContents(data.votePost);
+      setTotalAdmin(data.totalAdmin);
     });
   }, []);
   function movePost() {
@@ -37,8 +38,15 @@ const Vote = ({ isLogin }) => {
                 width: "80vh",
                 margin: "0 auto",
               }}
+              key={index}
             >
-              <VotePost admin={admin} item={content} isLogin={isLogin} />
+              <VotePost
+                admin={admin}
+                item={content}
+                isLogin={isLogin}
+                agreeVoters={content.agreeVoters.length}
+                totalAdmin={totalAdmin}
+              />
             </div>
           );
         })}

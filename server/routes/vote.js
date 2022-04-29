@@ -38,10 +38,12 @@ router.get("/", async (req, res) => {
         p_id: _id,
       };
     });
-
+    const totalAdmin = await User.find({ admin: true });
+    console.log(totalAdmin);
     res.status(200).send({
       admin,
       votePost: result,
+      totalAdmin: totalAdmin.length,
     });
   } catch (err) {
     console.log(err);
@@ -103,7 +105,7 @@ router.post("/agree", async (req, res) => {
     const { p_id } = req.body;
     // votepost를 find로 찾아온다음에
     // agreeVoters에 user가 등록되어있는지 확인
-    //...
+
     console.log(`p_id:${p_id}`);
     // PersonModel.find({ favouriteFoods: "sushi" }, ...);
     const agreeCheck = await votePost.findOne({ _id: p_id });
