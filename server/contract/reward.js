@@ -18,7 +18,7 @@ const reward = async () => {
           await Post.findByIdAndUpdate(post._id, {
             rewardCount: post.rewardCount % 5,
           });
-          await ServerAccount.rewardToken(user.wallet.address, amount);
+          await ServerAccount.rewardToken(user.wallet.address, 5);
 
           // 나중에 5 -> amount 해줘야함.
         })

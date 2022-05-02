@@ -49,7 +49,7 @@ export default function Mypost({ item, userInfo }) {
   // 코멘트 다는 함수
   async function makeComment() {
     let result = await axios.post(
-      "https://cocofarm.herokuapp.com/comments",
+      "https://localhost:8080/comments",
       { p_id: item.p_id, comment: comment },
       { withCredentials: true }
     );

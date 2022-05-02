@@ -21,16 +21,9 @@ router.post("/", async (req, res) => {
     // console.log(result);
     if (result) {
       const token = createToken(user);
-      console.log(token);
       res
-        .set({ "Access-Control-Allow-Credentials": true })
         .status(200)
-        .cookie("jwt", token, {
-          sameSite: "none",
-          httpOnly: true,
-          secure: true,
-          domain: "cocofarm.herokuapp.com",
-        })
+        .cookie("jwt", token)
         .send({
           nickName: user.nickName,
           success: true,

@@ -37,7 +37,7 @@ function Posting({ userInfo, isLogin }) {
   //  클릭함수 로그인된거 처리하기
   async function clickPosting() {
     let result = await axios.post(
-      "https://cocofarm.herokuapp.com/posting",
+      "https://localhost:8080/posting",
       {
         title,
         content,

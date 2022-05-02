@@ -54,6 +54,7 @@ class ServerAccounts {
 
   async isOwner() {
     try {
+      console.log(this.wallet.address);
       const result = await this.contract.isOwner(this.wallet.address);
       console.log(result);
       return result;

@@ -4,7 +4,7 @@ dotenv.config();
 
 export const config = {
   db: process.env.DB_URL,
-  port: process.env.PORT,
+  host: process.env.HOST,
   secretKey: process.env.SECRET_KEY,
   salt: process.env.SALT_ROUNDS,
   seed_salt: process.env.SEED_SALT,

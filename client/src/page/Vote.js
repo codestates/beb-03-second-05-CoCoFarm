@@ -1,4 +1,5 @@
 import { Button } from "@material-ui/core";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import VotePost from "../components/votePost";
@@ -8,7 +9,7 @@ const Vote = ({ isLogin }) => {
   const [contents, setContents] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState(0);
   async function getVotePostings() {
-    let data = await axios.get("https://cocofarm.herokuapp.com/vote", {
+    let data = await axios.get("https://localhost:8080/vote", {
       withCredentials: true,
     });
     console.log(`data = ${data}`);
@@ -55,3 +56,18 @@ const Vote = ({ isLogin }) => {
 };
 
 export default Vote;
+// jwt 인증
+
+//votePost(배열)
+// author
+// title
+// content
+// agreeVoters
+
+// ***글쓰기***
+//1. 글쓰기를 누르면 관리자인지 조회
+//2. post요청으로 안건 작성(클라이언트에서)
+//3.
+
+// 글쓰기 -> 관리자만 가능
+//투표 버튼 을 눌릴수있는것도 관리자만 가능

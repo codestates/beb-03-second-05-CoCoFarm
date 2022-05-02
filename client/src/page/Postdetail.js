@@ -30,7 +30,7 @@ function Postdetail({ userInfo, isLogin }) {
 
   async function getOnePost(postId) {
     let result = await axios.get(
-      `https://cocofarm.herokuapp.com/posts?p_id=${postId}`,
+      `https://localhost:8080/posts?p_id=${postId}`,
       {
         withCredentials: true,
       }
@@ -59,7 +59,7 @@ function Postdetail({ userInfo, isLogin }) {
     if (isLogin === true) {
       // 로그인 되어있을때만 동작
       let result = await axios.post(
-        "https://cocofarm.herokuapp.com/comments",
+        "https://localhost:8080/comments",
         { p_id: p_id, comment: comment },
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ function Postdetail({ userInfo, isLogin }) {
       if (isLiked === false && curPost.post.like === false) {
         setIsLiked(true);
         let result = await axios.post(
-          "https://cocofarm.herokuapp.com/like",
+          "https://localhost:8080/like",
           {
             p_id: p_id,
           },
@@ -87,7 +87,7 @@ function Postdetail({ userInfo, isLogin }) {
       } else {
         setIsLiked(false);
         let result = await axios.post(
-          "https://cocofarm.herokuapp.com/like",
+          "https://localhost:8080/like",
           {
             p_id: p_id,
           },

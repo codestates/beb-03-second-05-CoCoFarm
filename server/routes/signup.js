@@ -32,16 +32,9 @@ router.post("/", async (req, res) => {
 
       // createToken 함수에서 이미 password 빼고 만듬.
       const token = createToken(user);
-      console.log(`token = ${token}`);
       res
-        .set({ "Access-Control-Allow-Credentials": true })
         .status(200)
-        .cookie("jwt", token, {
-          sameSite: "none",
-          httpOnly: true,
-          secure: true,
-          domain: "cocofarm.herokuapp.com",
-        })
+        .cookie("jwt", token)
         .send({ success: true, message: "회원가입 성공!" });
     }
   } catch (err) {
