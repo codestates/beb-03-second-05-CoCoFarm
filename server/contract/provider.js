@@ -13,4 +13,5 @@ const provider = new ethers.providers.getDefaultProvider(network, {
   },
 });
 
+
 export default provider;
