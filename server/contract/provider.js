@@ -1,6 +1,16 @@
 import { ethers } from "ethers";
-const url = "rinkeby";
+import { config } from "../config.js";
+// 로컬 배포시
+const url = "http://127.0.0.1:7545";
 const provider = new ethers.providers.JsonRpcProvider(url);
-// console.log(provider);
-// console.log(provider);
+
+// 테스트넷 배포
+// const network = "rinkeby";
+// const provider = new ethers.providers.getDefaultProvider(network, {
+//   infura: {
+//     projectId: config.InfuraProjectId,
+//     projectSecret: config.InfuraProjectSecret,
+//   },
+// });
+
 export default provider;

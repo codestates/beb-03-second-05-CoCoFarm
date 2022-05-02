@@ -1,40 +1,10 @@
 import express from "express";
-import { create } from "ipfs-http-client";
+
 import { decodingToken } from "../auth/decodingToken.js";
 import Post from "../model/post.js";
 import User from "../model/users.js";
-
+import createIPFS from "../contract/createIpfs.js";
 import ServerAccount from "../contract/ServerAccounts.js";
-const createIPFS = async (metaData) => {
-  const client = create("https://ipfs.infura.io:5001/api/v0");
-  const cid = await client.add(JSON.stringify(metaData));
-  const url = `https://ipfs.infura.io/ipfs/${cid.path}`;
-
-  return url;
-};
-// ipfs에 파일추가??
-// const added = await client.add(metadata);
-// ipfs url받아오기
-// const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-
-// async function storeNFT() {
-//   let metadata = {
-//     name: name,
-//     description: description,
-//     image: fileUrl,
-//   };
-
-//   metadata = JSON.stringify(metadata);
-
-//   try {
-//     const added = await client.add(metadata);
-//     const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-//     // console.log(url);
-//     mintNFT(url);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
 
 const router = express.Router();
 

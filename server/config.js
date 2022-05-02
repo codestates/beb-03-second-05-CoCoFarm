@@ -11,4 +11,6 @@ export const config = {
   CA: process.env.CA,
   NFT: process.env.NFTCA,
   ServerPriveKey: process.env.SERVERPRIVKEY,
+  InfuraProjectId: process.env.InfuraId,
+  InfuraProjectSecret: process.env.InfuraPassword,
 };

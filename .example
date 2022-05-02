@@ -1,0 +1,32 @@
+HOST = 8080
+
+
+#몽고DB URL
+DB_URL = 
+
+
+
+#유저 패스워드 해싱 값
+PASSWORD_SALT = 
+
+#토큰 해쉬 값
+SECRET_KEY = 
+
+
+#토큰 해쉬 라운드 수
+SALT_ROUNDS = 
+
+#erc20 컨트랙트 주소
+CA = 
+
+#erc721 컨트랙트 주소
+NFTCA = 
+
+
+#컨트랙트 배포한 계정 키
+SERVERPRIVKEY=
+
+
+#테스트넷 배포 하기 위한 infura 아이디,패스워드
+InfuraId = 
+InfuraPassword = 
