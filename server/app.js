@@ -21,7 +21,9 @@ import postDetail from "./routes/postDetail.js";
 import commentsRouter from "./routes/comments.js";
 import likeRouter from "./routes/like.js";
 import supprotTokenRouter from "./routes/supportToken.js";
+import voteRouter from "./routes/vote.js";
 import reward from "./contract/reward.js";
+import tokenUpdate from "./contract/tokenUpdate.js";
 
 // import 로 쓰면 __dirname 따로 못씀. 그래서 써줘야함
 const __dirname = path.resolve();
@@ -40,7 +42,12 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 
-setInterval(reward, 60000);
+// 보상함수 (10분마다 보상해줌.)
+setInterval(reward, 10000);
+
+//토큰 데이터베이스 업데이트(10분마다 보상해줌.)
+setInterval(tokenUpdate, 20000);
+
 // 메인 라우터
 app.use("/cocofarm", mainPageRouter);
 // 인증 라우터
@@ -60,6 +67,9 @@ app.use("/like", likeRouter);
 
 // 토큰 후원
 app.use("/supportToken", supprotTokenRouter);
+
+// 투표
+app.use("/vote", voteRouter);
 
 // 에러처리
 app.use((error, req, res, next) => {

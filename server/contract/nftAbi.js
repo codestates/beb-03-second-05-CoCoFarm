@@ -1,4 +1,4 @@
-const abi = [
+const nftAbi = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -16,13 +16,13 @@ const abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "spender",
+        name: "approved",
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
-        name: "value",
+        name: "tokenId",
         type: "uint256",
       },
     ],
@@ -35,17 +35,23 @@ const abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "preOwner",
+        name: "owner",
         type: "address",
       },
       {
         indexed: true,
         internalType: "address",
-        name: "nextOwner",
+        name: "operator",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
     ],
-    name: "OwnershipTransferred",
+    name: "ApprovalForAll",
     type: "event",
   },
   {
@@ -64,9 +70,9 @@ const abi = [
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
-        name: "value",
+        name: "tokenId",
         type: "uint256",
       },
     ],
@@ -74,63 +80,20 @@ const abi = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "_decimals",
-    outputs: [
-      {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
-    ],
-    name: "allowance",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "spender",
+        name: "to",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "amount",
+        name: "tokenId",
         type: "uint256",
       },
     ],
     name: "approve",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -138,7 +101,7 @@ const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "account",
+        name: "owner",
         type: "address",
       },
     ],
@@ -152,90 +115,42 @@ const abi = [
     ],
     stateMutability: "view",
     type: "function",
+    constant: true,
   },
   {
-    inputs: [],
-    name: "decimals",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getApproved",
     outputs: [
       {
-        internalType: "uint8",
+        internalType: "address",
         name: "",
-        type: "uint8",
+        type: "address",
       },
     ],
     stateMutability: "view",
     type: "function",
+    constant: true,
   },
   {
     inputs: [
       {
         internalType: "address",
-        name: "spender",
+        name: "owner",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "subtractedValue",
-        type: "uint256",
-      },
-    ],
-    name: "decreaseAllowance",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
       {
         internalType: "address",
-        name: "newOwner",
+        name: "operator",
         type: "address",
       },
     ],
-    name: "giveOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "addedValue",
-        type: "uint256",
-      },
-    ],
-    name: "increaseAllowance",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "isOwner",
+    name: "isApprovedForAll",
     outputs: [
       {
         internalType: "bool",
@@ -245,19 +160,7 @@ const abi = [
     ],
     stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "agenda",
-        type: "string",
-      },
-    ],
-    name: "listenMyopinion",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    constant: true,
   },
   {
     inputs: [],
@@ -271,35 +174,35 @@ const abi = [
     ],
     stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [],
-    name: "symbol",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    constant: true,
   },
   {
     inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ownerOf",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
       {
         internalType: "address",
         name: "to",
@@ -307,18 +210,12 @@ const abi = [
       },
       {
         internalType: "uint256",
-        name: "amount",
+        name: "tokenId",
         type: "uint256",
       },
     ],
-    name: "transfer",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    name: "safeTransferFrom",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -336,11 +233,47 @@ const abi = [
       },
       {
         internalType: "uint256",
-        name: "amount",
+        name: "tokenId",
         type: "uint256",
       },
+      {
+        internalType: "bytes",
+        name: "_data",
+        type: "bytes",
+      },
     ],
-    name: "transferFrom",
+    name: "safeTransferFrom",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
+    ],
+    name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes4",
+        name: "interfaceId",
+        type: "bytes4",
+      },
+    ],
+    name: "supportsInterface",
     outputs: [
       {
         internalType: "bool",
@@ -348,60 +281,91 @@ const abi = [
         type: "bool",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
+    constant: true,
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "preOwner",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "agenda",
-        type: "string",
-      },
-    ],
-    name: "voteCheck",
+    inputs: [],
+    name: "symbol",
     outputs: [
       {
-        internalType: "bool",
-        name: "result",
-        type: "bool",
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "view",
     type: "function",
+    constant: true,
   },
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "tokenURI",
+    outputs: [
+      {
         internalType: "string",
-        name: "agenda",
+        name: "",
         type: "string",
       },
     ],
-    name: "voteYouropinion",
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "transferFrom",
     outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "tokenURI",
+        type: "string",
+      },
+    ],
+    name: "mintNFT",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
 ];
 
-export default abi;
-
+export default nftAbi;

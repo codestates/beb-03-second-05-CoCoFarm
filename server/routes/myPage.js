@@ -29,8 +29,20 @@ router.get("/", async (req, res) => {
         return Post.findOne({ _id: ObjectId(postId) });
       })
     );
+    const nftBalance = await client.balanceOfNFT();
+    console.log(`nftBalance = ${nftBalance}`);
 
-    res.send({ nickName, email, avartar, posts: mapPosts, tokenBalance });
+    //삭제요망
+    const isOwner = await client.isOwner();
+    console.log(`Client is Owner ? = ${isOwner}`);
+    res.send({
+      nickName,
+      email,
+      avartar,
+      posts: mapPosts,
+      tokenBalance,
+      nftBalance,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "서버에서 읽을수가 없습니다." });
