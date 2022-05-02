@@ -31,6 +31,10 @@ router.get("/", async (req, res) => {
     );
     const nftBalance = await client.balanceOfNFT();
     console.log(`nftBalance = ${nftBalance}`);
+
+    //삭제요망
+    const isOwner = await client.isOwner();
+    console.log(`Client is Owner ? = ${isOwner}`);
     res.send({
       nickName,
       email,

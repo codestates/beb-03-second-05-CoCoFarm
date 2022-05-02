@@ -6,7 +6,8 @@ import Posting from "./page/Posting";
 import Postdetail from "./page/Postdetail";
 import Mypage from "./page/Mypage";
 import Postedit from "./page/Postedit";
-
+import Vote from "./page/Vote";
+import VotePosting from "./page/VotePosting";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Cookies } from "react-cookie";
@@ -17,6 +18,7 @@ function App() {
   const [userInfo, setUserInfo] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [postings, setPostings] = useState(undefined);
+  const [cookie, setCookie] = useState(undefined);
   const cookies = new Cookies();
 
   useEffect(() => {
@@ -25,21 +27,22 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("userNickname : ", userInfo);
-    console.log("isLogin? : ", isLogin);
+    // console.log("userNickname : ", userInfo);
+    // console.log("isLogin? : ", isLogin);
   }, [userInfo, isLogin]);
 
   useEffect(() => {
-    console.log("current postings : ", postings);
+    // console.log("current postings : ", postings);
   }, [postings]);
 
   const getCookie = (name) => {
+    setCookie(cookies.get(name));
     return cookies.get(name);
   };
 
   // 포스팅 불러오는 함수
   async function getPostings(item) {
-    let result = await axios.get("https://localhost:8080/cocofarm", {
+    let result = await axios.get("https://cocofarm.herokuapp.com/cocofarm", {
       withCredentials: true,
     });
     // 검색어가 존재한다면 필터링해서 보여주기
@@ -68,7 +71,7 @@ function App() {
     console.log(getCookie("jwt"));
     if (getCookie("jwt")) {
       // jwt 토큰이 있으면 서버로 유저 정보 요청 보내기
-      let result = await axios.get("https://localhost:8080/tokenAuth", {
+      let result = await axios.get("https://cocofarm.herokuapp.com/tokenAuth", {
         withCredentials: true,
       });
       if (result.data.nickName) {
@@ -121,6 +124,12 @@ function App() {
           <Route
             path="/mypage"
             element={<Mypage isLogin={isLogin} userInfo={userInfo} />}
+          ></Route>
+          <Route path="/vote" element={<Vote isLogin={isLogin} />}></Route>
+
+          <Route
+            path="/vote/posting"
+            element={<VotePosting isLogin={isLogin} userInfo={userInfo} />}
           ></Route>
         </Routes>
       </BrowserRouter>

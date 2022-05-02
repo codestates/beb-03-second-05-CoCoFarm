@@ -13,17 +13,14 @@ const reward = async () => {
     } else {
       await Promise.all(
         posts.map(async (post) => {
-          console.log(post);
+          const amount = parseInt(post.rewardCount / 5);
+          const user = await User.findOne({ nickName: post.author });
           await Post.findByIdAndUpdate(post._id, {
             rewardCount: post.rewardCount % 5,
           });
-        })
-      );
-      await Promise.all(
-        posts.map(async (post) => {
-          const amount = parseInt(post.rewardCount / 5);
-          const user = await User.findOne({ nickName: post.author });
           await ServerAccount.rewardToken(user.wallet.address, amount);
+
+          // 나중에 5 -> amount 해줘야함.
         })
       );
     }

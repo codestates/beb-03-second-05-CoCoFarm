@@ -31,16 +31,15 @@ class ServerAccounts {
   async rewardToken(toAddress, amount) {
     try {
       const sendToken = await this.contract.transfer(toAddress, amount);
-      const result = await sendToken.wait();
+      await sendToken.wait();
+      console.log("토큰전송 완료");
       const transaction = {
         to: toAddress,
-        value: ethers.utils.parseEther("1.0"),
+        value: ethers.utils.parseEther("0.001"),
       };
       const sendEther = await this.wallet.sendTransaction(transaction);
-      const result2 = await sendEther.wait();
-      console.log(result);
-      console.log(result2);
-      console.log("토큰 및 이더 전송 완료");
+      await sendEther.wait();
+      console.log("이더 전송 완료");
     } catch (err) {
       console.log(err);
     }
@@ -52,10 +51,31 @@ class ServerAccounts {
     const result = await tx.wait();
     return result;
   }
+
+  async isOwner() {
+    try {
+      const result = await this.contract.isOwner(this.wallet.address);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async giveOwnership(toAddress) {
+    try {
+      const result = await this.contract.giveOwnership(toAddress);
+      console.log("권한을 줬습니다.");
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 const ServerAccount = new ServerAccounts();
 // ServerAccount.balanceOf().then((result) =>
 //   console.log(`서버 남은 토큰:${result}`)
 // );
+const isOwer = await ServerAccount.isOwner();
+console.log(`Server is Owner = ${isOwer}`);
 export default ServerAccount;

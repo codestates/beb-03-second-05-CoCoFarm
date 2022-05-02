@@ -56,7 +56,7 @@ function Mypage({ isLogin, userInfo }) {
 
   async function editMyprofile() {
     let result = await axios.post(
-      `https://localhost:8080/myPage/${userInfo}`,
+      `https://cocofarm.herokuapp.com/myPage/${userInfo}`,
       { nickName: nickname, password, email, phoneNumber: phone },
       { withCredentials: true }
     );
@@ -66,7 +66,7 @@ function Mypage({ isLogin, userInfo }) {
   }
   //본인 포스팅 받아오는 함수
   async function getMypost() {
-    let result = await axios.get("https://localhost:8080/myPage", {
+    let result = await axios.get("https://cocofarm.herokuapp.com/myPage", {
       withCredentials: true,
     });
     return result.data;
@@ -92,7 +92,7 @@ function Mypage({ isLogin, userInfo }) {
     const link = window.prompt("이미지 링크를 입력하세요");
     await axios({
       method: "post",
-      url: `https://localhost:8080/myPage/${userInfo}`,
+      url: `https://cocofarm.herokuapp.com/myPage/${userInfo}`,
       data: {
         avartar: link,
       },
